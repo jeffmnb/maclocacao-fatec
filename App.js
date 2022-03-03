@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Inter_400Regular, Inter_500Medium, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
+import { Pattaya_400Regular } from '@expo-google-fonts/pattaya';
+import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import AppLoading from 'expo-app-loading';
+
+import { Routes } from './src/routes';
+
+import { Favorites } from './src/pages/Favorites';
+import { HotelDescription } from './src/pages/HotelDescription';
+import { UserConfig } from './src/pages/UserConfig';
 
 export default function App() {
+
+  const [fontsValid] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
+    Pattaya_400Regular,
+    Poppins_400Regular,
+    Poppins_700Bold
+  });
+
+  if (!fontsValid) {
+    return <AppLoading />
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Routes />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
