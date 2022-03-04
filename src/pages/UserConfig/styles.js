@@ -30,9 +30,10 @@ export const AreaButtons = styled.View`
 export const BtnExit = styled.TouchableOpacity`
     width: 100%;
     height: ${hp('5')};
-    border-top-width: 1;
-    border-color: ${theme.colors.tomato};
+    justify-content: flex-start;
+    align-items: center;
     padding-left: ${wp('6')};
+    flex-direction: row;
 `;
 
 export const TxtExit = styled.Text`
@@ -44,30 +45,35 @@ export const TxtExit = styled.Text`
 
 export const BtnConta = styled.TouchableOpacity`
     width: 100%;
-    height: ${hp('5')};
+    height: ${hp('5.5')};
     border-top-width: 1;
     border-color: ${theme.colors.gray};
+    justify-content: flex-start;
+    align-items: center;
     padding-left: ${wp('6')};
+    flex-direction: row;
 `;
 
 export const TxtConta = styled.Text`
     font-family: ${theme.fonts.PoppinsRegular};
     color: ${theme.colors.gray};
     font-size: ${RFValue(14)}px;
-    margin-top: ${hp('1')};
 `;
 
 export const BtnMyImo = styled.TouchableOpacity`
     width: 100%;
-    height: ${hp('5')};
+    height: ${hp('5.5')};
     border-top-width: 1;
+    border-bottom-width: 1;
     border-color: ${theme.colors.gray};
+    justify-content: flex-start;
+    align-items: center;
     padding-left: ${wp('6')};
+    flex-direction: row;
 `;
 
 export const TxtMyImo = styled.Text`
     font-family: ${theme.fonts.PoppinsRegular};
     color: ${theme.colors.gray};
     font-size: ${RFValue(14)}px;
-    margin-top: ${hp('1')};
 `;

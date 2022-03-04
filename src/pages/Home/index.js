@@ -64,7 +64,7 @@ export const Home = () => {
                     keyExtractor={item => String(item.title)}
                     data={categories}
                     horizontal
-                    contentContainerStyle={{paddingLeft:widthPercentageToDP('5'), paddingRight:widthPercentageToDP('7')}}
+                    contentContainerStyle={{ paddingLeft: widthPercentageToDP('5'), paddingRight: widthPercentageToDP('7') }}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <CardCategory title={item.title} onpress={() => setCategorySelected(item.title)} actived={categorySelected == item.title} />

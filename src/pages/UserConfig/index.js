@@ -12,6 +12,12 @@ import {
   TxtMyImo
 } from './styles';
 
+import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { RFValue } from 'react-native-responsive-fontsize';
+import theme from '../../../theme';
+import { View } from 'react-native';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+
 export const UserConfig = () => {
   return (
     <Container>
@@ -20,14 +26,28 @@ export const UserConfig = () => {
       <AreaButtons>
 
         <BtnConta>
-          <TxtConta>Minha Conta</TxtConta>
+
+          <View style={{ marginLeft: widthPercentageToDP('0.7'), marginRight:widthPercentageToDP('2.2') }}>
+            <FontAwesome5 name="hotel" size={RFValue(18)} color={theme.colors.gray} />
+          </View>
+
+          <TxtConta>Meus Imóveis</TxtConta>
         </BtnConta>
 
         <BtnMyImo>
-          <TxtMyImo>Meus Imóveis</TxtMyImo>
+
+          <View style={{ marginRight: widthPercentageToDP('1.5') }}>
+            <MaterialCommunityIcons name="account-circle" size={RFValue(24)} color={theme.colors.gray} />
+          </View>
+
+          <TxtMyImo>Minha Conta</TxtMyImo>
         </BtnMyImo>
 
         <BtnExit>
+          <View style={{ marginTop: heightPercentageToDP('1'), marginRight: widthPercentageToDP('1.5') }}>
+            <MaterialIcons name="exit-to-app" size={RFValue(22.7)} color={theme.colors.tomato} />
+          </View>
+
           <TxtExit>Sair</TxtExit>
         </BtnExit>
 
