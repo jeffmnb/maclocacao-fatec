@@ -120,7 +120,7 @@ export const ConfirmHotel = () => {
                     <ButtonPay title={'Pagar com Pix         '} />
 
                     <View style={{ marginTop: heightPercentageToDP('4') }}>
-                        <Button onpress={handleConfirmCode} title={'Cancelar'} onpress={() => Navigation.goBack()} />
+                        <Button title={'Cancelar'} onpress={() => Navigation.goBack()} />
                     </View>
                 </View>
 

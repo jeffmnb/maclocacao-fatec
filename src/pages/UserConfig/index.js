@@ -17,15 +17,19 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 import { View } from 'react-native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { useNavigation } from '@react-navigation/native';
 
 export const UserConfig = () => {
+
+  const Navigation = useNavigation();
+
   return (
     <Container>
       <TxtTitle>CONFIGURACOES</TxtTitle>
 
       <AreaButtons>
 
-        <BtnConta>
+        <BtnConta onPress={()=> Navigation.navigate('UserProps')}>
 
           <View style={{ marginLeft: widthPercentageToDP('0.7'), marginRight:widthPercentageToDP('2.2') }}>
             <FontAwesome5 name="hotel" size={RFValue(18)} color={theme.colors.gray} />
@@ -34,7 +38,7 @@ export const UserConfig = () => {
           <TxtConta>Meus Imóveis</TxtConta>
         </BtnConta>
 
-        <BtnMyImo>
+        <BtnMyImo onPress={()=> Navigation.navigate('UserProfile')}>
 
           <View style={{ marginRight: widthPercentageToDP('1.5') }}>
             <MaterialCommunityIcons name="account-circle" size={RFValue(24)} color={theme.colors.gray} />

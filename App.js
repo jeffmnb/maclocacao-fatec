@@ -9,6 +9,8 @@ import { Routes } from './src/routes';
 import { Favorites } from './src/pages/Favorites';
 import { HotelDescription } from './src/pages/HotelDescription';
 import { UserConfig } from './src/pages/UserConfig';
+import { UserProps } from './src/pages/UserProps';
+import { UserProfile } from './src/pages/UserProfile';
 
 export default function App() {
 
