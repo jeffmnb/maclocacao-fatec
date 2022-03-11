@@ -17,12 +17,14 @@ import { EvilIcons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 
+import ImageUer from '../../assets/ImageUser.png';
+
 export const UserProfile = () => {
     return (
         <Container>
             <TxtTitle>MINHA CONTA</TxtTitle>
 
-            <ImgUser style={{ alignSelf: 'center', marginTop: heightPercentageToDP('7') }} source={{ uri: 'http://github.com/jeffmnb.png' }} />
+            <ImgUser style={{ alignSelf: 'center', marginTop: heightPercentageToDP('7') }} source={ImageUer} />
             <AreaEditImg>
                 <TxtChangeImg>Editar</TxtChangeImg>
             </AreaEditImg>
@@ -34,7 +36,7 @@ export const UserProfile = () => {
                 </View>
 
                 <BtnEdit>
-                    <EvilIcons name="pencil" size={RFValue(26)} color={theme.colors.dark} />
+                    <EvilIcons name="pencil" size={RFValue(26)} color={theme.colors.blueStrong} />
                 </BtnEdit>
             </View>
 
@@ -45,7 +47,7 @@ export const UserProfile = () => {
                 </View>
 
                 <BtnEdit>
-                    <EvilIcons name="pencil" size={RFValue(26)} color={theme.colors.dark} />
+                    <EvilIcons name="pencil" size={RFValue(26)} color={theme.colors.blueStrong} />
                 </BtnEdit>
             </View>
 

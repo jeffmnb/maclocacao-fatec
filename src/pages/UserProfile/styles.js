@@ -55,7 +55,7 @@ export const TxtTel = styled.Text`
 `;
 
 export const BtnEdit = styled.TouchableOpacity`
-    background-color: ${theme.colors.blueLight};
+    background-color: ${theme.colors.blueWhite};
     width: ${RFValue(35)}px;
     height: ${RFValue(35)}px;
     border-radius: ${RFValue(20)}px;

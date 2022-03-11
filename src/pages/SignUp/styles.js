@@ -113,4 +113,24 @@ export const TxtPass = styled.Text`
     font-size: ${RFValue(12)}px;
     margin-bottom: ${hp('1')};
     text-align: center;
-`;    
+`;
+
+export const TxtChoosePhoto = styled.Text`
+    color: ${theme.colors.gray};
+    font-size: ${RFValue(12.5)}px;
+    font-family: ${theme.fonts.PoppinsRegular};
+    margin-top: ${hp('1')};
+    text-align: center;
+`;
+
+export const BtnSelectimage = styled.TouchableOpacity`
+    width: ${RFValue('80')};
+    height: ${RFValue('80')};
+    border-radius: ${wp('20')};
+    background-color: ${theme.colors.grayLight};
+    justify-content: center;
+    align-items: center;
+    margin-bottom:${hp('2')};
+    margin-top: ${hp('2')};
+    align-self:center;
+`;

@@ -12,7 +12,7 @@ import { MaterialIcons, FontAwesome, Ionicons, Foundation } from '@expo/vector-i
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import theme from '../../../theme';
 
-export const MyInput = ({ placeholder, secure }) => {
+export const MyInput = ({ placeholder, secure, onchangetext }) => {
     return (
         <Container>
 
@@ -37,7 +37,7 @@ export const MyInput = ({ placeholder, secure }) => {
                                                     : placeholder == 'Telefone'
                                                     && <Foundation style={{ marginRight: widthPercentageToDP('1.5') }} name="telephone" size={RFValue(23.5)} color={theme.colors.gray} />
                 }
-                <TextInput secureTextEntry={secure} style={{ flex: 1, marginLeft: widthPercentageToDP('4'), fontSize: RFValue(14.5), color: theme.colors.gray }} placeholder={placeholder} placeholderTextColor={theme.colors.gray} />
+                <TextInput onChangeText={onchangetext} secureTextEntry={secure} style={{ flex: 1, marginLeft: widthPercentageToDP('4'), fontSize: RFValue(14.5), color: theme.colors.gray }} placeholder={placeholder} placeholderTextColor={theme.colors.gray} />
             </AreaInput>
 
         </Container>

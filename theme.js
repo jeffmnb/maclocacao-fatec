@@ -7,7 +7,9 @@ export default {
         greenLight: '#87e088',
         grayLight: '#f2f2f2',
         tomato: '#e27374',
-        blueLight:'#DFF6FE'
+        blueLight: '#DFF6FE',
+        blueWhite: '#E7ECFD',
+        blueStrong: '#5992F8'
     },
 
     fonts: {

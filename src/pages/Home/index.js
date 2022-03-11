@@ -34,7 +34,7 @@ export const Home = () => {
 
     const Navigation = useNavigation();
 
-    const FilterModal = useRef(false);
+    const FilterModal = useRef(true);
 
     const [categorySelected, setCategorySelected] = useState('');
 
