@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity, View, Text } from 'react-native';
+import { Image, TouchableOpacity, View, Text, Alert } from 'react-native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 import {
@@ -10,21 +10,34 @@ import {
     AreaEditImg,
     TxtContact,
     TxtTel,
-    BtnEdit
+    BtnEdit,
+    BtnBack
 } from './styles';
 
-import { EvilIcons } from '@expo/vector-icons';
+import { MaterialIcons, EvilIcons } from '@expo/vector-icons';
+
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 
 import ImageUer from '../../assets/ImageUser.png';
 
+import { useNavigation } from '@react-navigation/native';
+
 export const UserProfile = () => {
+
+    const Navigation = useNavigation();
+
     return (
+
         <Container>
             <TxtTitle>MINHA CONTA</TxtTitle>
 
+            <BtnBack onPress={() => Navigation.goBack()}>
+                <MaterialIcons name="keyboard-arrow-left" size={RFValue(28.5)} color={theme.colors.white} />
+            </BtnBack>
+
             <ImgUser style={{ alignSelf: 'center', marginTop: heightPercentageToDP('7') }} source={ImageUer} />
+
             <AreaEditImg>
                 <TxtChangeImg>Editar</TxtChangeImg>
             </AreaEditImg>

@@ -64,3 +64,9 @@ export const TxtNotData = styled.Text`
     position: absolute;
     top: ${hp('45')};
 `;
+
+export const AreaBtn = styled.View`
+    position: absolute;
+    top: 125;
+    right: 390;
+`;

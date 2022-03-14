@@ -5,7 +5,9 @@ import {
     Header,
     TxtLength,
     TxtWelcome,
-    TxtNotData
+    TxtNotData,
+    BtnBack,
+    AreaBtn
 } from './styles';
 
 import { MaterialIcons } from '@expo/vector-icons';
@@ -33,15 +35,21 @@ export const UserProps = () => {
     }, []));
 
 
-    if (loading) {
-        return <Load />
-    }
+    // if (loading) {
+    //     return <Load />
+    // }
     return (
         <Container>
 
             <Header>
                 <TxtWelcome>Seus imóveis</TxtWelcome>
             </Header>
+
+            <AreaBtn>
+                <BtnBack onPress={() => Navigation.goBack()}>
+                    <MaterialIcons name="keyboard-arrow-left" size={RFValue(28.5)} color={theme.colors.white} />
+                </BtnBack>
+            </AreaBtn>
 
             <TxtLength>Total: {hasValue}</TxtLength>
 

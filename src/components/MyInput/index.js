@@ -34,8 +34,10 @@ export const MyInput = ({ placeholder, secure, onchangetext }) => {
                                                 ? <Ionicons style={{ marginRight: widthPercentageToDP('1.5') }} name="ios-location-sharp" size={RFValue(20)} color={theme.colors.gray} />
                                                 : placeholder == 'Número'
                                                     ? <Ionicons style={{ marginRight: widthPercentageToDP('1.5') }} name="ios-location-sharp" size={RFValue(20)} color={theme.colors.gray} />
-                                                    : placeholder == 'Telefone'
-                                                    && <Foundation style={{ marginRight: widthPercentageToDP('1.5') }} name="telephone" size={RFValue(23.5)} color={theme.colors.gray} />
+                                                    : placeholder == 'Telefone (Ex. 14999...)'
+                                                        ? <Foundation style={{ marginRight: widthPercentageToDP('1.5') }} name="telephone" size={RFValue(23.5)} color={theme.colors.gray} />
+                                                        : placeholder == 'Telefone'
+                                                        && <Foundation style={{ marginRight: widthPercentageToDP('1.5') }} name="telephone" size={RFValue(23.5)} color={theme.colors.gray} />
                 }
                 <TextInput onChangeText={onchangetext} secureTextEntry={secure} style={{ flex: 1, marginLeft: widthPercentageToDP('4'), fontSize: RFValue(14.5), color: theme.colors.gray }} placeholder={placeholder} placeholderTextColor={theme.colors.gray} />
             </AreaInput>

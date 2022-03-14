@@ -1,3 +1,10 @@
-tela do usuario
+//ATTS PARA TELA DE CADASTRO E LOGIN
 
-V1 Locatar e V2 Locatario??
+Fazer contexto para auth do usuario;
+Setar os tipos dos inputs para facilitar usuario;
+Verificar documentos (rg / cpf);
+
+
+//ATTS PARA HOME
+Buscar todos os imoveis
+Mudar layout do cadastro do imovel para facilicar na busca por categorias;

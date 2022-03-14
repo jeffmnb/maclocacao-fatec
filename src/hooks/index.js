@@ -4,42 +4,70 @@ import { Alert } from 'react-native';
 //faz login
 export const loginUser = async (email, senha) => {
 
+    const userData = {
+        email,
+        senha
+    };
+
     try {
-
-        const userData = {
-            email,
-            senha
-        };
-
-        const response = await axios.post('http://10.0.46.210:8000/user/login', userData);
+        const response = await axios.post('http://192.168.0.6:8000/user/login', userData);
+        // console.log(response.data);
 
         if (response.data.user) {
             return true;
         } else {
-            Alert.alert(response.data.message);
-        }
+            return Alert.alert(response.data.message);
+        };
 
-    } catch (err) {
-        if (err.message == 'Network Error') {
-            Alert.alert('Opss, sem conexão.');
-        } else {
-            Alert.alert(err.message);
+    } catch (error) {
+        if (error.message == 'Network Error') {
+            return Alert.alert('Opss, sem conexão')
         }
     }
 };
 
 
+//cadastra novo user
+export const signUp = async (dataUser) => {
+
+    try {
+        const response = await axios.post('http://192.168.0.6:8000/user/cadastro', dataUser);
+
+        return response.data;
+    } catch (error) {
+        console.log('Náo foi possivel chamar axios / cadastro user');
+    }
+
+};
+
+
 
 //envia sms de recuperacao de senha
-export const recoverPass = ({ numberUser }) => {
+export const recoverPass = async (numberUser) => {
 
     try {
 
-        const number = numberUser;
+        const data = { telefone: '+55' + numberUser };
 
-        const response = axios.post('http://10.0.46.210:8000/user/enviasmsvalidacao', number);
+        const response = await axios.post('http://192.168.0.6:8000/user/enviasmsvalidacao', data);
+        // console.log(response.data);
 
+        return response;
     } catch (error) {
         Alert.alert('Não foi possível enviar SMS.');
     }
+};
+
+
+//verifica SMS
+export const verificateSms = async (code, idSms) => {
+
+    const dataSms = {
+        id: idSms,
+        token: code
+    };
+
+    const response = await axios.post('http://192.168.0.6:8000/user/smsvalidacao', dataSms);
+
+    return response.data;
 };

@@ -88,10 +88,9 @@ export const TitleLogin = styled.Text`
 `;
 
 export const AreaSmsInput = styled.View`
-    flex: 1;
     flex-direction: row;
-    align-items: center;
-    margin-left: ${wp('1.5')};
+    align-self: center;
+    margin-left: ${wp('2')};
 `;
 
 export const InputSms = styled.TextInput`
@@ -100,7 +99,7 @@ height: ${hp('7')};
 border-color: ${theme.colors.gray};
 border-width: 1px;
 border-radius: ${wp('5')}px;
-margin-left: ${wp('5')};
+margin-right: ${wp('3')};
 text-align: center;
 font-family: ${theme.fonts.PoppinsBold};
 color: ${theme.colors.gray};

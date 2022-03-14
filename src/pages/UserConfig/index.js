@@ -29,16 +29,16 @@ export const UserConfig = () => {
 
       <AreaButtons>
 
-        <BtnConta onPress={()=> Navigation.navigate('UserProps')}>
+        <BtnConta onPress={() => Navigation.navigate('UserProps')}>
 
-          <View style={{ marginLeft: widthPercentageToDP('0.7'), marginRight:widthPercentageToDP('2.2') }}>
+          <View style={{ marginLeft: widthPercentageToDP('0.7'), marginRight: widthPercentageToDP('2.2') }}>
             <FontAwesome5 name="hotel" size={RFValue(18)} color={theme.colors.gray} />
           </View>
 
           <TxtConta>Meus Imóveis</TxtConta>
         </BtnConta>
 
-        <BtnMyImo onPress={()=> Navigation.navigate('UserProfile')}>
+        <BtnMyImo onPress={() => Navigation.navigate('UserProfile')}>
 
           <View style={{ marginRight: widthPercentageToDP('1.5') }}>
             <MaterialCommunityIcons name="account-circle" size={RFValue(24)} color={theme.colors.gray} />
