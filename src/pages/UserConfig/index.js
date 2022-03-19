@@ -18,10 +18,22 @@ import theme from '../../../theme';
 import { View } from 'react-native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { userDataStoraged } from '../../hooks/auth';
 
 export const UserConfig = () => {
 
   const Navigation = useNavigation();
+
+
+
+  const handleSignOut = async () => {
+
+    await AsyncStorage.setItem('userteste', JSON.stringify(null));
+
+    Navigation.navigate('Welcome');
+  };
 
   return (
     <Container>
@@ -47,7 +59,7 @@ export const UserConfig = () => {
           <TxtMyImo>Minha Conta</TxtMyImo>
         </BtnMyImo>
 
-        <BtnExit>
+        <BtnExit onPress={handleSignOut}>
           <View style={{ marginTop: heightPercentageToDP('1'), marginRight: widthPercentageToDP('1.5') }}>
             <MaterialIcons name="exit-to-app" size={RFValue(22.7)} color={theme.colors.tomato} />
           </View>

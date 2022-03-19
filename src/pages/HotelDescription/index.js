@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { FlatList, Image, ScrollView, Text, View } from 'react-native';
 
 import {
     Container,
@@ -25,7 +25,7 @@ import { Button } from '../../components/Button';
 import { MaterialIcons, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 import imgcard from '../../assets/imgcard.jpg';
@@ -37,11 +37,26 @@ export const HotelDescription = () => {
 
     const Navigation = useNavigation();
 
+    const Route = useRoute();
+
+    const { item } = Route.params;
+
     return (
         <Container>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <SlideImages>
-                    <Image source={imgcard} resizeMode='repeat' style={{ borderRadius: widthPercentageToDP('8'), width: widthPercentageToDP('95'), height: heightPercentageToDP('33') }} />
+
+                    <FlatList
+                        keyExtractor={item => String(item)}
+                        data={item.fotos}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => (
+
+                            <Image source={{ uri: item }} resizeMode='cover' style={{ borderRadius: widthPercentageToDP('8'), width: widthPercentageToDP('95'), height: heightPercentageToDP('33') }} />
+
+                        )}
+                    />
 
                     <View style={{ position: 'absolute', width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -60,10 +75,10 @@ export const HotelDescription = () => {
                 </SlideImages>
 
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Title numberOfLines={2}>Hotel Ipiranga</Title>
+                    <Title numberOfLines={2}>{item.nome}</Title>
 
                     <AreaStars>
-                            <Stars value={5}/>
+                        <Stars value={5} />
                     </AreaStars>
                 </View>
 
@@ -77,10 +92,10 @@ export const HotelDescription = () => {
 
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Price>R$ 550 / dia.</Price>
+                    <Price>R$ {item.price} / dia.</Price>
                 </View>
 
-                <Location>Av. Emilía Rodrigues, 312</Location>
+                <Location>{item.endereco.rua}, {item.endereco.numero}</Location>
 
 
                 <Details>Detalhes</Details>
@@ -88,17 +103,17 @@ export const HotelDescription = () => {
                 <AreaDetails>
                     <Area>
                         <Ionicons name="expand" size={RFValue(26)} color={theme.colors.blue} />
-                        <TitleArea>144m2</TitleArea>
+                        <TitleArea>{item.details.area}m2</TitleArea>
                     </Area>
 
                     <Area>
                         <Ionicons name="bed" size={RFValue(26)} color={theme.colors.blue} />
-                        <TitleDetail>2</TitleDetail>
+                        <TitleDetail>{item.details.numBed}</TitleDetail>
                     </Area>
 
                     <Area>
                         <FontAwesome name="bathtub" size={RFValue(26)} color={theme.colors.blue} />
-                        <TitleDetail>1</TitleDetail>
+                        <TitleDetail>{item.details.numBath}</TitleDetail>
                     </Area>
                 </AreaDetails>
 
@@ -106,15 +121,15 @@ export const HotelDescription = () => {
 
                 <AreaBenefits>
                     <View style={{ flex: 1, paddingLeft: widthPercentageToDP('3.5'), width: widthPercentageToDP('43.5') }}>
-                        <TxtItem numberOfLines={1}>- Wifi</TxtItem>
-                        <TxtItem>- Café da manhã</TxtItem>
-                        <TxtItem>- Aceita Pets</TxtItem>
+                        <TxtItem numberOfLines={1}>{item.actions[0] && `- ${item.actions[0].title}`}</TxtItem>
+                        <TxtItem>{item.actions[2] && `- ${item.actions[2].title}`}</TxtItem>
+                        <TxtItem>{item.actions[4] && `- ${item.actions[4].title}`}</TxtItem>
                     </View>
 
                     <View style={{ flex: 1, paddingLeft: widthPercentageToDP('3.5'), width: widthPercentageToDP('43.5') }}>
-                        <TxtItem numberOfLines={1}>- Ar condicionado</TxtItem>
-                        <TxtItem>- Aquecedor</TxtItem>
-                        <TxtItem>- Academia</TxtItem>
+                        <TxtItem numberOfLines={1}>{item.actions[1] && `- ${item.actions[1].title}`}</TxtItem>
+                        <TxtItem>{item.actions[3] && `- ${item.actions[3].title}`}</TxtItem>
+                        <TxtItem>{item.actions[5] && `- ${item.actions[5].title}`}</TxtItem>
                     </View>
                 </AreaBenefits>
 

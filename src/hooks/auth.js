@@ -158,7 +158,7 @@ export const AuthProvider = ({ children }) => {
 
         const response = await axios.post('http://192.168.0.17:8000/properties/propcategoria', data);
 
-        return response;
+        return response.data;
     };
 
     return (

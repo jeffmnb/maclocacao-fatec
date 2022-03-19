@@ -53,3 +53,11 @@ export const SearchInput = styled.TextInput`
     width: ${wp('55')};
     height: ${hp('6')};
 `;
+
+
+export const txtNotData = styled.Text`
+    font-family: ${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(20)}px;
+    color: ${theme.colors.gray};
+    opacity: 0.7;
+`;

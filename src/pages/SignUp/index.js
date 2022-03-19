@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import {
     Container,
@@ -34,12 +34,13 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-import { loginUser, recoverPass, signUp, verificateSms } from '../../hooks';
+import { recoverPass, verificateSms } from '../../hooks';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import { AuthContext } from '../../hooks/auth';
 
 export const SignUp = () => {
 
@@ -58,9 +59,7 @@ export const SignUp = () => {
         setImageUserBase64(null);
     }, [firstModal, secondModal]));
 
-    useFocusEffect(useCallback(() => {
-
-    }, []));
+    const { signIn, signUp } = useContext(AuthContext);
 
     const Navigation = useNavigation();
 
@@ -169,7 +168,7 @@ export const SignUp = () => {
             return Alert.alert('Favor inserir dados');
         }
 
-        const data = await loginUser(emailUser, passUser);
+        const data = await signIn(emailUser, passUser);
 
         console.log(data);
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 
 import {
     Container,
@@ -6,7 +6,8 @@ import {
     BtnFilter,
     Areainput,
     AreaIcon,
-    SearchInput
+    SearchInput,
+    txtNotData
 } from './styles';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -19,14 +20,37 @@ import { CardHotel } from '../../components/CardHotel';
 import { Calendar } from '../../components/Calendar';
 import { Modalize } from 'react-native-modalize';
 import { Button } from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
+import { AuthContext } from '../../hooks/auth';
 
 export const Home = () => {
 
-    console.log(categorySelected);
+    const { getAllProperties, getByCategory } = useContext(AuthContext);
+
+
+    useFocusEffect(useCallback(() => {
+
+        getAllProps();
+
+        setCategorySelected('Todos');
+
+    }, []));
+
+
+    const getAllProps = async () => {
+
+        const response = await getAllProperties();
+        setAllProps(response);
+    };
+
+
+    const [allProps, setAllProps] = useState();
+
+    // console.log(categorySelected);
 
     const categories = [
-        { title: 'Internet' },
+        { title: 'Wifi' },
         { title: 'Restaurante' },
         { title: 'Ar Cond.' },
         { title: 'Suíte' },
@@ -36,7 +60,37 @@ export const Home = () => {
 
     const FilterModal = useRef(true);
 
-    const [categorySelected, setCategorySelected] = useState('');
+    const [categorySelected, setCategorySelected] = useState('Todos');
+
+    const [searchInput, setSearchInput] = useState();
+
+    const handleEnterProp = (item) => {
+        Navigation.navigate('HotelDescription', { item });
+    };
+
+    const handleUserSearch = async () => {
+
+        let response = await getAllProperties();
+
+        const data = response.filter(item => item.nome.match(searchInput));
+
+        setAllProps(data);
+    };
+
+
+    const handleSelectCategory = async (item) => {
+
+        setCategorySelected(item.title);
+
+        if (item.title == 'Todos') {
+            return getAllProps();
+        };
+
+        const response = await getByCategory(item.title);
+
+        setAllProps(response.propsWithCategory);
+    };
+
 
     return (
         <Container>
@@ -47,9 +101,9 @@ export const Home = () => {
 
                 <Areainput>
                     <AreaIcon>
-                        <Ionicons name="search" size={RFValue(20)} color={theme.colors.gray} />
+                        <Ionicons onPress={handleUserSearch} name="search" size={RFValue(20)} color={theme.colors.gray} />
                     </AreaIcon>
-                    <SearchInput placeholder='Pesquise aqui...' style={{ fontSize: RFValue(14), marginLeft: widthPercentageToDP('2'), color: theme.colors.gray }} />
+                    <SearchInput onChangeText={text => setSearchInput(text)} placeholder='Pesquise aqui...' style={{ fontSize: RFValue(14), marginLeft: widthPercentageToDP('2'), color: theme.colors.gray }} />
                 </Areainput>
             </Header>
 
@@ -62,22 +116,30 @@ export const Home = () => {
 
                 <FlatList
                     keyExtractor={item => String(item.title)}
-                    data={categories}
+                    data={[{ title: 'Todos' }, ...categories]}
                     horizontal
                     contentContainerStyle={{ paddingLeft: widthPercentageToDP('5'), paddingRight: widthPercentageToDP('7') }}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => (
-                        <CardCategory title={item.title} onpress={() => setCategorySelected(item.title)} actived={categorySelected == item.title} />
+                        <CardCategory title={item.title} onpress={() => handleSelectCategory(item)} actived={categorySelected == item.title} />
                     )}
                 />
+
+
+                {
+                    allProps == []
+
+                    && <txtNotData>Opss, não encontramos</txtNotData>
+                }
+                
             </View>
 
             <FlatList
-                keyExtractor={(item) => String(item)}
-                data={[0, 1, 2, 3]}
-                renderItem={() => (
+                keyExtractor={(item) => String(item._id)}
+                data={allProps}
+                renderItem={({ item }) => (
 
-                    <CardHotel onpress={() => Navigation.navigate('HotelDescription')} />
+                    <CardHotel title={item.nome} foto={item.fotos[0]} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => handleEnterProp(item)} />
                 )}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ alignSelf: 'center' }}

@@ -6,6 +6,7 @@ import { TabsRoute } from './tab.routes';
 import { ConfirmHotel } from '../pages/ConfirmHotel';
 import { UserProps } from '../pages/UserProps';
 import { UserProfile } from '../pages/UserProfile';
+import { userDataStoraged } from '../hooks/auth';
 
 export const StackRoutes = () => {
 
@@ -13,13 +14,20 @@ export const StackRoutes = () => {
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+
+            {
+                userDataStoraged && <Stack.Screen name='Home ' component={TabsRoute} />
+
+            }
+
+
             <Stack.Screen name='Welcome' component={Welcome} />
             <Stack.Screen name='SignUp' component={SignUp} />
             <Stack.Screen name='Home' component={TabsRoute} />
             <Stack.Screen name='HotelDescription' component={HotelDescription} />
             <Stack.Screen name='ConfirmHotel' component={ConfirmHotel} />
-            <Stack.Screen name='UserProps' component={UserProps}/>
-            <Stack.Screen name='UserProfile' component={UserProfile}/>
+            <Stack.Screen name='UserProps' component={UserProps} />
+            <Stack.Screen name='UserProfile' component={UserProfile} />
         </Stack.Navigator>
     )
 };
