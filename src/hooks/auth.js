@@ -150,19 +150,70 @@ export const AuthProvider = ({ children }) => {
     };
 
 
+    //ADICIONA IMOVEL FAVORITO
+    const setNewFavorite = async (data) => {
+
+        try {
+
+            const response = await axios.put(`http://192.168.0.17:8000/user/addfavorites/${userDataStoraged._id}`, data);
+
+            return response.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+
+    //DELETA UM IMOVEL DO FAVORITO
+    const removeFavorite = async (data) => {
+
+        try {
+
+            const response = await axios.put(`http://192.168.0.17:8000/user/removefavorite/${userDataStoraged._id}`, data);
+
+            return response.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+
+    };
+
+
+    //BUSCA TODOS FAVORITOS
+    const getAllFavorites = async () => {
+
+        try {
+
+            const response = await axios.get(`http://192.168.0.17:8000/user/callfavorites/${userDataStoraged._id}`);
+
+            return response.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
 
     //BUSCA POR CATEGORIA   
     const getByCategory = async (category) => {
 
-        const data = { title: category }
+        try {
 
-        const response = await axios.post('http://192.168.0.17:8000/properties/propcategoria', data);
+            const data = { title: category }
 
-        return response.data;
+            const response = await axios.post('http://192.168.0.17:8000/properties/propcategoria', data);
+
+            return response.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     return (
-        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, getByCategory }}>
+        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, getAllFavorites, getByCategory, setNewFavorite, removeFavorite }}>
             {children}
         </AuthContext.Provider>
     )

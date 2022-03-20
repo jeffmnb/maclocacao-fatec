@@ -2,6 +2,7 @@ import React from 'react';
 import { Inter_400Regular, Inter_500Medium, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
 import { Pattaya_400Regular } from '@expo-google-fonts/pattaya';
 import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Jost_300Light, Jost_600SemiBold } from '@expo-google-fonts/jost';
 import AppLoading from 'expo-app-loading';
 
 import { Routes } from './src/routes';
@@ -20,7 +21,9 @@ export default function App() {
     Inter_700Bold,
     Pattaya_400Regular,
     Poppins_400Regular,
-    Poppins_700Bold
+    Poppins_700Bold,
+    Jost_300Light,
+    Jost_600SemiBold
   });
 
   if (!fontsValid) {

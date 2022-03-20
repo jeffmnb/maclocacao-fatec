@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { FlatList, Image, ScrollView, Text, View } from 'react-native';
 
 import {
@@ -25,21 +25,62 @@ import { Button } from '../../components/Button';
 import { MaterialIcons, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 import imgcard from '../../assets/imgcard.jpg';
 import { Stars } from '../../components/Stars';
 
+import { AuthContext } from '../../hooks/auth';
+
 export const HotelDescription = () => {
 
+    useFocusEffect(useCallback(() => {
+
+        verificateFavorite();
+
+    }, []));
+
     const [liked, setLiked] = useState(true);
+
+    const { setNewFavorite, removeFavorite, getAllFavorites } = useContext(AuthContext);
 
     const Navigation = useNavigation();
 
     const Route = useRoute();
 
     const { item } = Route.params;
+
+
+    const verificateFavorite = async () => {
+        const response = await getAllFavorites();
+
+        let favoritesUser = response.favoriteProps;
+
+        // console.log(favoritesUser);
+
+        const favoriteExist = favoritesUser.filter(prop => prop._id == item._id);
+
+        console.log(favoriteExist);
+
+        if (favoriteExist.length > 0) {
+            setLiked(false);
+        }
+    };
+
+
+    const handleFavoriteProp = async () => {
+
+        setLiked(oldValue => !oldValue);
+
+        if (liked) {
+            const response = await setNewFavorite(item);
+            console.log(response);
+        } else {
+            const response = await removeFavorite(item);
+            console.log(response);
+        };
+    };
 
     return (
         <Container>
@@ -64,7 +105,7 @@ export const HotelDescription = () => {
                             <MaterialIcons name="keyboard-arrow-left" size={RFValue(28.5)} color={theme.colors.blue} />
                         </BtnBack>
 
-                        <BtnFavorite onPress={() => setLiked(oldValue => !oldValue)}>
+                        <BtnFavorite onPress={handleFavoriteProp}>
                             {liked
                                 ? <AntDesign name="hearto" size={RFValue(24)} color={theme.colors.blue} />
                                 : <AntDesign name="heart" size={RFValue(24)} color={theme.colors.tomato} />

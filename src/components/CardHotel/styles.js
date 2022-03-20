@@ -10,6 +10,7 @@ export const Container = styled.TouchableOpacity`
     height: ${hp('28')};
     border-radius: ${wp('4')};
     margin-bottom: ${hp('3')};
+    margin-right: ${wp('5')};
 `;
 
 export const AreaDescription = styled.View`

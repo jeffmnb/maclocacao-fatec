@@ -18,6 +18,8 @@ export default {
         interBold: 'Inter_700Bold',
         PattayaRegular: 'Pattaya_400Regular',
         PoppinsRegular: 'Poppins_400Regular',
-        PoppinsBold: 'Poppins_700Bold'
+        PoppinsBold: 'Poppins_700Bold',
+        Jost_300Light: 'Jost_300Light',
+        Jost_600SemiBold: 'Jost_600SemiBold'
     }
 }

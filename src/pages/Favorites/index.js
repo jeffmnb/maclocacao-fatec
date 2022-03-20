@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import {
     Container,
@@ -8,14 +8,12 @@ import {
     TxtNotData
 } from './styles';
 
-import { MaterialIcons } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
-import theme from '../../../theme';
 import { FlatList, View } from 'react-native';
 import { CardHotel } from '../../components/CardHotel';
 import { Load } from '../../components/Load';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { AuthContext } from '../../hooks/auth';
 
 export const Favorites = () => {
 
@@ -25,17 +23,32 @@ export const Favorites = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const [allFavorites, setAllFavorites] = useState([]);
+
+    const { getAllFavorites } = useContext(AuthContext);
+
     useFocusEffect(useCallback(() => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 2700);
+        // setLoading(true);
+
+        getFavorites();
+
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 2700);
     }, []));
 
 
-    if (loading) {
-        return <Load />
-    }
+    const getFavorites = async () => {
+        const data = await getAllFavorites();
+
+        // console.log(data.favoriteProps);
+        setAllFavorites(data.favoriteProps);
+    };
+
+
+    // if (loading) {
+    //     return <Load />
+    // }
     return (
         <Container>
 
@@ -43,26 +56,27 @@ export const Favorites = () => {
                 <TxtWelcome>Veja abaixo os lugares {'\n'} que amou 💙</TxtWelcome>
             </Header>
 
-            <TxtLength>Total: {hasValue}</TxtLength>
+            <TxtLength>Total: {allFavorites.length}</TxtLength>
 
             {
-                hasValue < 1 &&
+                allFavorites < 1 &&
                 <TxtNotData>Ops, você ainda não gostou {'\n'} de nenhum imóvel ☹️</TxtNotData>
             }
 
 
             {
-                hasValue > 0 &&
+                allFavorites.length > 0 &&
 
                 <FlatList
-                    keyExtractor={item => String(item)}
-                    data={[0, 1, 2]}
+                    keyExtractor={item => String(item._id)}
+                    data={allFavorites}
                     showsVerticalScrollIndicator={false}
-                    style={{ marginTop: heightPercentageToDP('2') }}
-                    renderItem={() => (
-                        <CardHotel onpress={() => Navigation.navigate('HotelDescription')} />
+                    style={{ marginTop: heightPercentageToDP('2'), paddingLeft: widthPercentageToDP('4.5') }}
+                    renderItem={({ item }) => (
+                        <CardHotel foto={item.fotos[0]} title={item.nome} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => Navigation.navigate('HotelDescription', {item})} />
                     )}
-                />}
+                />
+            }
 
         </Container>
     );

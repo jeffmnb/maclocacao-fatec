@@ -14,14 +14,16 @@ import {
     BtnBack
 } from './styles';
 
-import { MaterialIcons, EvilIcons } from '@expo/vector-icons';
+import { MaterialIcons, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 
-import ImageUer from '../../assets/ImageUser.png';
+import ImageUser from '../../assets/ImageUser.png';
 
 import { useNavigation } from '@react-navigation/native';
+
+import { userDataStoraged } from '../../hooks/auth';
 
 export const UserProfile = () => {
 
@@ -36,7 +38,7 @@ export const UserProfile = () => {
                 <MaterialIcons name="keyboard-arrow-left" size={RFValue(28.5)} color={theme.colors.white} />
             </BtnBack>
 
-            <ImgUser style={{ alignSelf: 'center', marginTop: heightPercentageToDP('7') }} source={ImageUer} />
+            <ImgUser style={{ alignSelf: 'center', marginTop: heightPercentageToDP('7') }} source={userDataStoraged.foto != null ? { uri: `data:image/png;base64,${userDataStoraged.foto}` } : ImageUser} />
 
             <AreaEditImg>
                 <TxtChangeImg>Editar</TxtChangeImg>
@@ -45,7 +47,7 @@ export const UserProfile = () => {
             <View style={{ width: '100%', flexDirection: 'row', marginTop: heightPercentageToDP('7'), alignItems: 'center', justifyContent: 'space-between' }}>
                 <View>
                     <TxtContact>Telefone:</TxtContact>
-                    <TxtTel>xxxxxxxxxxx</TxtTel>
+                    <TxtTel>{userDataStoraged.telefone}</TxtTel>
                 </View>
 
                 <BtnEdit>
@@ -56,11 +58,11 @@ export const UserProfile = () => {
             <View style={{ width: '100%', flexDirection: 'row', marginTop: heightPercentageToDP('7'), alignItems: 'center', justifyContent: 'space-between' }}>
                 <View>
                     <TxtContact>Email:</TxtContact>
-                    <TxtTel>email@email.com</TxtTel>
+                    <TxtTel>{userDataStoraged.email}</TxtTel>
                 </View>
 
                 <BtnEdit>
-                    <EvilIcons name="pencil" size={RFValue(26)} color={theme.colors.blueStrong} />
+                    <MaterialCommunityIcons name="email-check-outline" size={RFValue(17)} color={theme.colors.blueStrong} />
                 </BtnEdit>
             </View>
 
