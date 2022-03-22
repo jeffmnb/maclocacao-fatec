@@ -15,7 +15,7 @@ import {
 import { MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -30,9 +30,21 @@ export const UserConfig = () => {
 
   const handleSignOut = async () => {
 
-    await AsyncStorage.setItem('userteste', JSON.stringify(null));
+    Alert.alert('Aviso', 'Deseja sair?', [
+      {
+        text: 'Não',
+        style: 'cancel'
+      },
+      {
+        text: 'Sim',
+        onPress: async () => {
 
-    Navigation.navigate('Welcome');
+          await AsyncStorage.setItem('userteste', JSON.stringify(null));
+
+          Navigation.navigate('Welcome');
+        }
+      }
+    ])
   };
 
   return (

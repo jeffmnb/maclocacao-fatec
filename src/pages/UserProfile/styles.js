@@ -71,3 +71,20 @@ export const BtnBack = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
 `;
+
+
+export const TitleLogin = styled.Text`
+     font-family: ${theme.fonts.PoppinsBold};
+    color: ${theme.colors.dark};
+    font-size: ${RFValue(21)}px;
+    text-align: center;
+    margin-bottom: ${hp('1')};
+`;
+
+export const Subtitle = styled.Text`
+    font-family: ${theme.fonts.PoppinsRegular};
+    color: ${theme.colors.gray};
+    font-size: ${RFValue(13)}px;
+    margin-bottom: ${hp('7')};
+    text-align: center;
+`;

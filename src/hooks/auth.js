@@ -212,8 +212,33 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+
+
+    //ATUALIZA FOTO DO USER
+    const changePhotoUser = async (base64) => {
+
+        try {
+
+            const newPhoto = await axios.put(`http://192.168.0.17:8000/user/trocafoto/${userDataStoraged._id}`, { foto: base64 });
+
+            if (newPhoto.data.newFoto) {
+                console.log(newPhoto.data.newFoto);
+
+                await AsyncStorage.setItem('userteste', JSON.stringify(newPhoto.data.newFoto));
+
+                await loadUserData();
+            }
+
+            return newPhoto.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, getAllFavorites, getByCategory, setNewFavorite, removeFavorite }}>
+        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, getAllFavorites, getByCategory, setNewFavorite, removeFavorite, changePhotoUser }}>
             {children}
         </AuthContext.Provider>
     )
