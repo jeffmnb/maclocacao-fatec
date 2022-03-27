@@ -12,6 +12,7 @@ import { HotelDescription } from './src/pages/HotelDescription';
 import { UserConfig } from './src/pages/UserConfig';
 import { UserProps } from './src/pages/UserProps';
 import { UserProfile } from './src/pages/UserProfile';
+import { CreateProp } from './src/pages/CreateProp';
 
 export default function App() {
 

@@ -25,7 +25,7 @@ export const CardHotel = ({ onpress, foto, title, location }) => {
 
 
 
-            <Image style={{ width: '100%', height: '100%', borderRadius: widthPercentageToDP('4') }} resizeMode='cover' source={{ uri: foto }} />
+            <Image style={{ width: '100%', height: '100%', borderRadius: widthPercentageToDP('4') }} resizeMode='cover' source={{ uri: `data:image/png;base64,${foto}` }} />
 
             <AreaDescription>
                 <LinearGradient end={{ x: 0.5, y: 2.5 }} style={{ justifyContent: 'center', alignItems: 'center', width: widthPercentageToDP('85'), borderRadius: widthPercentageToDP('4'), right: widthPercentageToDP('5'), flexDirection: 'row' }} colors={[theme.colors.grayLight, theme.colors.blueLight]}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import {
     Container,
@@ -17,7 +17,8 @@ import { FlatList, View } from 'react-native';
 import { CardHotel } from '../../components/CardHotel';
 import { Load } from '../../components/Load';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { AuthContext } from '../../hooks/auth';
 
 export const UserProps = () => {
 
@@ -27,12 +28,27 @@ export const UserProps = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const [myProps, setMyProps] = useState([]);
+
     useFocusEffect(useCallback(() => {
         setLoading(true);
+
+        getProps();
+
         setTimeout(() => {
             setLoading(false);
         }, 2700);
     }, []));
+
+    const { getAllPropsByUser } = useContext(AuthContext);
+
+    const getProps = async () => {
+        const response = await getAllPropsByUser();
+
+        if (response.propsUser) {
+            setMyProps(response.propsUser);
+        }
+    };
 
 
     // if (loading) {
@@ -51,25 +67,26 @@ export const UserProps = () => {
                 </BtnBack>
             </AreaBtn>
 
-            <TxtLength>Total: {hasValue}</TxtLength>
+            <TxtLength>Total: {myProps.length}</TxtLength>
 
             {
-                hasValue < 1 &&
+                myProps.length < 1 &&
                 <TxtNotData>Ops, você ainda não postou {'\n'} nenhum imóvel ☹️</TxtNotData>
             }
 
 
             {
-                hasValue > 0 &&
+                myProps.length > 0 &&
 
                 <FlatList
                     keyExtractor={item => String(item)}
-                    data={[0, 1, 2]}
+                    data={myProps}
                     showsVerticalScrollIndicator={false}
                     style={{ marginTop: heightPercentageToDP('2') }}
-                    renderItem={() => (
-                        <CardHotel onpress={() => Navigation.navigate('HotelDescription')} />
+                    renderItem={({ item }) => (
+                        <CardHotel foto={item.fotos[0]} title={item.nome} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => Navigation.navigate('HotelDescription', { item })} />
                     )}
+                    contentContainerStyle={{ marginLeft: widthPercentageToDP('4.5') }}
                 />}
 
         </Container>

@@ -14,10 +14,11 @@ import {
     TxtWelcome,
     ImageUser,
     TxtSugestion,
-    Txtcategory
+    Txtcategory,
+    ButtonAdd
 } from './styles';
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
@@ -30,6 +31,8 @@ import { Button } from '../../components/Button';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { AuthContext, userDataStoraged } from '../../hooks/auth';
+
+import ImageUserProfile from '../../assets/ImageUser.png';
 
 export const Home = () => {
 
@@ -110,6 +113,8 @@ export const Home = () => {
     };
 
 
+
+
     return (
         <Container>
 
@@ -119,7 +124,7 @@ export const Home = () => {
                     <TxtName>{userDataStoraged.nome}</TxtName>
                 </View>
 
-                <ImageUser source={{ uri: `data:image/png;base64,${userDataStoraged.foto}` }} />
+                <ImageUser source={userDataStoraged.foto != null ? { uri: `data:image/png;base64,${userDataStoraged.foto}` } : ImageUserProfile} />
 
             </AreaName>
 
@@ -127,7 +132,7 @@ export const Home = () => {
 
             <Header>
                 <BtnFilter onPress={() => FilterModal.current?.open()}>
-                    <Ionicons name="filter" size={RFValue(23)} color={theme.colors.white} style={{ marginLeft: widthPercentageToDP('0.65'), marginTop: heightPercentageToDP('0.5') }} />
+                    <MaterialCommunityIcons name="calendar-month" size={RFValue(25)} color={theme.colors.white} style={{ marginLeft: widthPercentageToDP('0.65'), marginTop: heightPercentageToDP('0.5') }} />
                 </BtnFilter>
 
                 <Areainput>
@@ -158,6 +163,7 @@ export const Home = () => {
                         <CardCategory title={item.title} onpress={() => handleSelectCategory(item)} actived={categorySelected == item.title} />
                     )}
                 />
+
 
 
                 {
@@ -191,6 +197,9 @@ export const Home = () => {
                 </View>
 
             </Modalize>
+
+
+
 
         </Container>
     );

@@ -94,7 +94,7 @@ export const HotelDescription = () => {
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item }) => (
 
-                            <Image source={{ uri: item }} resizeMode='cover' style={{ borderRadius: widthPercentageToDP('8'), width: widthPercentageToDP('95'), height: heightPercentageToDP('33') }} />
+                            item !== false && <Image source={{ uri: `data:image/png;base64,${item}` }} resizeMode='cover' style={{ borderRadius: widthPercentageToDP('8'), width: widthPercentageToDP('95'), height: heightPercentageToDP('33') }} />
 
                         )}
                     />

@@ -119,3 +119,16 @@ export const Txtcategory = styled.Text`
     margin-top: ${hp('1.5')};
     margin-bottom: ${hp('2')};
 `;
+
+
+export const ButtonAdd = styled.TouchableOpacity`
+    width:${RFValue(50)}px;
+    height: ${RFValue(50)}px;
+    background-color: ${theme.colors.blue};
+    border-radius: ${RFValue(25)}px;
+    position: absolute;
+    top: ${hp('83')};
+    right: ${wp('5')};
+    justify-content: center;
+    align-items: center;
+`;

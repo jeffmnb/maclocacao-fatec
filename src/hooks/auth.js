@@ -150,6 +150,19 @@ export const AuthProvider = ({ children }) => {
     };
 
 
+    //CADASTRA NOVO IMOVEL
+    const createNewProp = async (property) => {
+        try {
+            const response = await axios.post('http://192.168.0.17:8000/properties/cadastro', property);
+
+            return response.data;
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+
+
     //ADICIONA IMOVEL FAVORITO
     const setNewFavorite = async (data) => {
 
@@ -234,11 +247,22 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.log(error.message);
         }
+    };
 
+
+    //BUSCA IMOVEIS CADASTRADO PELO USER
+    const getAllPropsByUser = async () => {
+
+        try {
+            const response = await axios.get(`http://192.168.0.17:8000/user/imoveis/${userDataStoraged._id}`);
+            return response.data;
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     return (
-        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, getAllFavorites, getByCategory, setNewFavorite, removeFavorite, changePhotoUser }}>
+        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, createNewProp, getAllFavorites, getByCategory, setNewFavorite, removeFavorite, changePhotoUser, getAllPropsByUser }}>
             {children}
         </AuthContext.Provider>
     )

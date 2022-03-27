@@ -7,6 +7,7 @@ import { ConfirmHotel } from '../pages/ConfirmHotel';
 import { UserProps } from '../pages/UserProps';
 import { UserProfile } from '../pages/UserProfile';
 import { userDataStoraged } from '../hooks/auth';
+import { CreateProp } from '../pages/CreateProp';
 
 export const StackRoutes = () => {
 
@@ -28,6 +29,7 @@ export const StackRoutes = () => {
             <Stack.Screen name='ConfirmHotel' component={ConfirmHotel} />
             <Stack.Screen name='UserProps' component={UserProps} />
             <Stack.Screen name='UserProfile' component={UserProfile} />
+            <Stack.Screen name='CreateProp' component={CreateProp} />
         </Stack.Navigator>
     )
 };

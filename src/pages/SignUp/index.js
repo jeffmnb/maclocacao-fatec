@@ -241,10 +241,6 @@ export const SignUp = () => {
             return Alert.alert('Este telefone já possui uma conta');
         }
 
-        if (imageUser == null || imageUser == '') {
-            return Alert.alert('Favor selecionar uma imagem');
-        };
-
         if (response.newUser) {
             setLoading(true);
             setTimeout(() => {
