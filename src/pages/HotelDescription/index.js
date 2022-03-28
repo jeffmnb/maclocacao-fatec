@@ -31,7 +31,7 @@ import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsi
 import imgcard from '../../assets/imgcard.jpg';
 import { Stars } from '../../components/Stars';
 
-import { AuthContext } from '../../hooks/auth';
+import { AuthContext, userDataStoraged } from '../../hooks/auth';
 
 export const HotelDescription = () => {
 
@@ -39,9 +39,16 @@ export const HotelDescription = () => {
 
         verificateFavorite();
 
+        let allPhotos = item.fotos;
+
+        let fotosValided = allPhotos.filter(item => item != null);
+        setFotosItem(fotosValided);
+
     }, []));
 
     const [liked, setLiked] = useState(true);
+
+    const [fotosItem, setFotosItem] = useState();
 
     const { setNewFavorite, removeFavorite, getAllFavorites } = useContext(AuthContext);
 
@@ -50,6 +57,8 @@ export const HotelDescription = () => {
     const Route = useRoute();
 
     const { item } = Route.params;
+
+    console.log(item.fotos);
 
 
     const verificateFavorite = async () => {
@@ -61,23 +70,26 @@ export const HotelDescription = () => {
 
         const favoriteExist = favoritesUser.filter(prop => prop._id == item._id);
 
-        console.log(favoriteExist);
+        // console.log(favoriteExist);
 
         if (favoriteExist.length > 0) {
             setLiked(false);
         }
     };
 
-
     const handleFavoriteProp = async () => {
 
         setLiked(oldValue => !oldValue);
 
+        const data = {
+            item
+        };
+
         if (liked) {
-            const response = await setNewFavorite(item);
+            const response = await setNewFavorite(data);
             console.log(response);
         } else {
-            const response = await removeFavorite(item);
+            const response = await removeFavorite(data);
             console.log(response);
         };
     };
@@ -89,12 +101,12 @@ export const HotelDescription = () => {
 
                     <FlatList
                         keyExtractor={item => String(item)}
-                        data={item.fotos}
+                        data={fotosItem}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item }) => (
 
-                            item !== false && <Image source={{ uri: `data:image/png;base64,${item}` }} resizeMode='cover' style={{ borderRadius: widthPercentageToDP('8'), width: widthPercentageToDP('95'), height: heightPercentageToDP('33') }} />
+                            item !== null && <Image source={{ uri: `data:image/png;base64,${item}` }} resizeMode='cover' style={{ borderRadius: widthPercentageToDP('8'), width: widthPercentageToDP('95'), height: heightPercentageToDP('33') }} />
 
                         )}
                     />

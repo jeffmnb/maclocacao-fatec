@@ -200,7 +200,7 @@ export const AuthProvider = ({ children }) => {
         try {
 
             const response = await axios.get(`http://192.168.0.17:8000/user/callfavorites/${userDataStoraged._id}`);
-
+            
             return response.data;
 
         } catch (error) {

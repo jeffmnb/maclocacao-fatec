@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 
 import {
@@ -18,8 +18,11 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { Buffer } from 'buffer';
+
 
 export const CardHotel = ({ onpress, foto, title, location }) => {
+
     return (
         <Container onPress={onpress}>
 

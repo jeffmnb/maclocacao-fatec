@@ -40,8 +40,7 @@ export const Favorites = () => {
 
     const getFavorites = async () => {
         const data = await getAllFavorites();
-
-        // console.log(data.favoriteProps);
+        console.log(data.favoriteProps);
         setAllFavorites(data.favoriteProps);
     };
 
@@ -73,7 +72,7 @@ export const Favorites = () => {
                     showsVerticalScrollIndicator={false}
                     style={{ marginTop: heightPercentageToDP('2'), paddingLeft: widthPercentageToDP('4.5') }}
                     renderItem={({ item }) => (
-                        <CardHotel foto={item.fotos[0]} title={item.nome} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => Navigation.navigate('HotelDescription', {item})} />
+                        <CardHotel foto={item.fotos[0]} title={item.nome} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => Navigation.navigate('HotelDescription', { item })} />
                     )}
                 />
             }

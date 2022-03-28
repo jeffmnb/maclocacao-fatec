@@ -37,6 +37,11 @@ import { Alert } from 'react-native';
 
 import { AuthContext } from '../../hooks/auth';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
+import { Buffer } from "buffer"
+import { TouchableOpacity } from 'react-native';
+
+
 export const CreateProp = () => {
 
     useFocusEffect(useCallback(() => {
@@ -111,6 +116,7 @@ export const CreateProp = () => {
         })
 
         if (pickerResult) {
+
             setPhoto(pickerResult.base64);
 
         } else {
@@ -144,12 +150,12 @@ export const CreateProp = () => {
             },
             fotos:
                 [
-                    ImageProp1 != null ? ImageProp1 : '1',
-                    ImageProp2 != null ? ImageProp2 : '2',
-                    ImageProp3 != null ? ImageProp3 : '3',
-                    ImageProp4 != null ? ImageProp4 : '4',
-                    ImageProp5 != null ? ImageProp5 : '5',
-                    ImageProp6 != null ? ImageProp6 : '6',
+                    ImageProp1 != null ? ImageProp1 : null,
+                    ImageProp2 != null ? ImageProp2 : null,
+                    ImageProp3 != null ? ImageProp3 : null,
+                    ImageProp4 != null ? ImageProp4 : null,
+                    ImageProp5 != null ? ImageProp5 : null,
+                    ImageProp6 != null ? ImageProp6 : null,
                 ],
             dono: {
                 id: userDataStoraged._id,
@@ -413,7 +419,9 @@ export const CreateProp = () => {
                     {
                         ImageProp1 != null ?
 
-                            <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp1}` }} />
+                            <TouchableOpacity onPress={() => pickImage(setImageProp1)}>
+                                <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp1}` }} />
+                            </TouchableOpacity>
 
                             :
 
@@ -427,7 +435,9 @@ export const CreateProp = () => {
                     {
                         ImageProp2 != null ?
 
-                            <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp2}` }} />
+                            <TouchableOpacity onPress={() => pickImage(setImageProp2)}>
+                                <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp2}` }} />
+                            </TouchableOpacity>
 
                             :
 
@@ -442,7 +452,9 @@ export const CreateProp = () => {
                     {
                         ImageProp3 != null ?
 
-                            <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp3}` }} />
+                            <TouchableOpacity onPress={() => pickImage(setImageProp3)}>
+                                <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp3}` }} />
+                            </TouchableOpacity>
 
                             :
 
@@ -456,7 +468,9 @@ export const CreateProp = () => {
                     {
                         ImageProp4 != null ?
 
-                            <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp4}` }} />
+                            <TouchableOpacity onPress={() => pickImage(setImageProp4)}>
+                                <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp4}` }} />
+                            </TouchableOpacity>
 
                             :
 
@@ -473,7 +487,9 @@ export const CreateProp = () => {
                     {
                         ImageProp5 != null ?
 
-                            <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp5}` }} />
+                            <TouchableOpacity onPress={() => pickImage(setImageProp5)}>
+                                <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp5}` }} />
+                            </TouchableOpacity>
 
                             :
 
@@ -486,7 +502,9 @@ export const CreateProp = () => {
                     {
                         ImageProp6 != null ?
 
-                            <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp6}` }} />
+                            <TouchableOpacity onPress={() => pickImage(setImageProp6)}>
+                                <ImageProp width={RFValue(90)} height={RFValue(90)} source={{ uri: `data:image/png;base64,${ImageProp6}` }} />
+                            </TouchableOpacity>
 
                             :
 
