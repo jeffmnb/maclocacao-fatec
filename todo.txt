@@ -1,0 +1,10 @@
+Setar os tipos dos inputs para facilitar usuario;
+
+Verificar documentos (rg / cpf);
+
+trabalhar com datas verificando os imoveis disponiveis naquele intervalo;
+
+Criar campo de user selecionar diarias;
+
+Verificar metodos de pagamento.
+
