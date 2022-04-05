@@ -169,8 +169,8 @@ export const CreateProp = () => {
         console.log(response);
 
         if (response.newProperties) {
-            Alert.alert('Imóvel cadastrado com sucesso!');
             Navigation.navigate('Home');
+            Alert.alert('Imóvel cadastrado com sucesso!');
         }
 
     };

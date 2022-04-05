@@ -110,6 +110,7 @@ export const ConfirmHotel = () => {
 
         if (response.newSchedule) {
             Alert.alert('Imóvel agendado com sucesso!');
+            Navigation.navigate('Home');
         } else {
             Alert.alert(response.message);
             
