@@ -5,6 +5,7 @@ import { HotelDescription } from '../pages/HotelDescription';
 import { TabsRoute } from './tab.routes';
 import { ConfirmHotel } from '../pages/ConfirmHotel';
 import { UserProps } from '../pages/UserProps';
+import { UserSchedules } from '../pages/UserSchedules';
 import { UserProfile } from '../pages/UserProfile';
 import { userDataStoraged } from '../hooks/auth';
 import { CreateProp } from '../pages/CreateProp';
@@ -30,6 +31,7 @@ export const StackRoutes = () => {
             <Stack.Screen name='UserProps' component={UserProps} />
             <Stack.Screen name='UserProfile' component={UserProfile} />
             <Stack.Screen name='CreateProp' component={CreateProp} />
+            <Stack.Screen name='UserSchedules' component={UserSchedules} />
         </Stack.Navigator>
     )
 };

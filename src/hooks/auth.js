@@ -274,8 +274,43 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+
+    //CARREGA AGENDAMENTOS DO USER
+    const getAllSchedulesUser = async () => {
+
+        try {
+
+            const response = await axios.get(`http://192.168.0.2:8000/user/myschedules/${userDataStoraged._id}`);
+
+            return response.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+
+    };
+
+
+    //CANCELA UM DETERMINADO AGENDAMENTO
+    const cancelScheduleUser = async (idSchedule) => {
+
+        try {
+
+            const response = await axios.delete(`http://192.168.0.2:8000/properties/cancelchedule/${idSchedule}`);
+
+            return response.data;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+
+    };
+
+
+
+
     return (
-        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, createNewProp, getAllFavorites, getByCategory, setNewFavorite, removeFavorite, changePhotoUser, getAllPropsByUser, createNewSchedule }}>
+        <AuthContext.Provider value={{ user, userDataStoraged, signIn, signUp, getAllProperties, createNewProp, getAllFavorites, getByCategory, setNewFavorite, removeFavorite, changePhotoUser, getAllPropsByUser, createNewSchedule, getAllSchedulesUser, cancelScheduleUser }}>
             {children}
         </AuthContext.Provider>
     )

@@ -58,8 +58,6 @@ export const HotelDescription = () => {
 
     const { item } = Route.params;
 
-    // console.log(item.fotos);
-
 
     const verificateFavorite = async () => {
         const response = await getAllFavorites();

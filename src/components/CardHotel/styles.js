@@ -49,3 +49,40 @@ export const AreaStars = styled.View`
     flex-direction: row;
     margin-right: ${wp('1')};
 `;
+
+export const AreaTime = styled.View`
+    width: ${RFValue(80)}px;
+    height: ${RFValue(80)}px;
+    border-radius: ${RFValue(40)};
+    background-color: ${theme.colors.blueLight};
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: ${hp('5.2')};
+    left: ${wp('10')};
+`;
+
+export const AreaTimeFinal = styled.View`
+    width: ${RFValue(80)}px;
+    height: ${RFValue(80)}px;
+    border-radius: ${RFValue(40)};
+    background-color: ${theme.colors.blueLight};
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: ${hp('5.2')};
+    left: ${wp('50')};
+`;
+
+export const TitleMonth = styled.Text`
+    font-family: ${theme.fonts.interBold};
+    font-size: ${RFValue(12)}px;
+    color: ${theme.colors.dark};
+    margin-bottom: ${hp('1')};
+`;
+
+export const TitleDay = styled.Text`
+    font-family: ${theme.fonts.interBold};
+    font-size: ${RFValue(12)}px;
+    color: ${theme.colors.dark};
+`;

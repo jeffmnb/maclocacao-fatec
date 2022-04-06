@@ -53,6 +53,15 @@ export const UserConfig = () => {
 
       <AreaButtons>
 
+        <BtnConta onPress={() => Navigation.navigate('UserSchedules')}>
+
+          <View style={{ marginLeft: widthPercentageToDP('0.7'), marginRight: widthPercentageToDP('2.2') }}>
+            <FontAwesome5 name="business-time" size={RFValue(19)} color={theme.colors.gray} />
+          </View>
+
+          <TxtConta>Meus Agendamentos</TxtConta>
+        </BtnConta>
+
         <BtnConta onPress={() => Navigation.navigate('UserProps')}>
 
           <View style={{ marginLeft: widthPercentageToDP('0.7'), marginRight: widthPercentageToDP('2.2') }}>

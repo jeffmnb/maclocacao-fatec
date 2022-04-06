@@ -26,8 +26,6 @@ export const CardHotel = ({ onpress, foto, title, location }) => {
     return (
         <Container onPress={onpress}>
 
-
-
             <Image style={{ width: '100%', height: '100%', borderRadius: widthPercentageToDP('4') }} resizeMode='cover' source={{ uri: `data:image/png;base64,${foto}` }} />
 
             <AreaDescription>
