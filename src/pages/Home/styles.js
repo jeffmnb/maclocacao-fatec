@@ -132,3 +132,48 @@ export const ButtonAdd = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
 `;
+
+export const AreaDates = styled.View`
+    align-self:center ;
+    margin-bottom: ${hp('3')};
+    width: ${RFValue(250)}px;
+    height: ${RFValue(75)}px;
+    border-radius: ${RFValue(75)}px;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    padding-left: ${wp('2')};
+    padding-right: ${wp('2')};
+`;
+
+export const BtnDate = styled.TouchableOpacity`
+    width: ${RFValue(65)}px;
+    height:${RFValue(65)}px;
+    border-radius:${RFValue(35)};
+    background-color: ${theme.colors.grayLight};
+    justify-content: center;
+    align-items: center;
+`;
+
+export const TxtDateIni = styled.Text`
+    font-family: ${theme.fonts.interBold};
+    font-size: ${RFValue(13.5)}px;
+    color: ${theme.colors.dark};
+    left: ${wp('14.5')};
+    margin-bottom: ${hp('1')};
+`;
+
+export const TxtDateFin = styled.Text`
+    font-family: ${theme.fonts.interBold};
+    font-size: ${RFValue(13.5)}px;
+    color: ${theme.colors.dark};
+    left: ${wp('50.5')};
+    margin-bottom: ${hp('3')};
+`;
+
+export const TxtDateSelected = styled.Text`
+    font-family: ${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(12)}px;
+    color: ${theme.colors.dark};
+    margin-top: ${hp('0.5')};
+`;

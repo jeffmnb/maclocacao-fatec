@@ -15,15 +15,19 @@ import {
     ImageUser,
     TxtSugestion,
     Txtcategory,
-    ButtonAdd
+    AreaDates,
+    BtnDate,
+    TxtDateIni,
+    TxtDateFin,
+    TxtDateSelected
 } from './styles';
 
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { CardCategory } from '../../components/CardCategory';
-import { FlatList, Image, ScrollView, Text, View } from 'react-native';
+import { FlatList, View, Alert, TouchableOpacity } from 'react-native';
 import { CardHotel } from '../../components/CardHotel';
 import { Calendar, dataEntrada } from '../../components/Calendar';
 import { Modalize } from 'react-native-modalize';
@@ -33,11 +37,14 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AuthContext, userDataStoraged } from '../../hooks/auth';
 
 import ImageUserProfile from '../../assets/ImageUser.png';
+import { format } from 'date-fns';
+
+let dateInitialFormatted;
+let dateFinalFormatted;
 
 export const Home = () => {
 
-    const { getAllProperties, getByCategory } = useContext(AuthContext);
-
+    const { getAllProperties, getByCategory, getPropByInterval } = useContext(AuthContext);
 
     useFocusEffect(useCallback(() => {
 
@@ -62,6 +69,98 @@ export const Home = () => {
     const [allProps, setAllProps] = useState();
 
     const [stateSearch, setStateSearch] = useState(false);
+
+    const [calendarVisible, setCalendarVisible] = useState(false);
+
+    const [heightModal, setHeightModal] = useState(heightPercentageToDP('35'));
+
+    const [dateInitial, setDateInitial] = useState('');
+    const [dateFinal, setDateFinal] = useState('');
+
+    const [monthInitial, setMonthInitial] = useState();
+    const [monthFinal, setMonthFinal] = useState();
+
+
+    const handleUserSelectDate = (date) => {
+
+        if (dateInitial == '') {
+
+            let dateIniFormated = `${date.dateString}T03:00:00.000Z`;
+
+            let dayInitial = format(new Date(dateIniFormated), 'dd');
+            let monthInitial = format(new Date(dateIniFormated), 'MM');
+
+            setDateInitial(dayInitial);
+            setMonthInitial(monthInitial);
+
+            dateInitialFormatted = dateIniFormated;
+            dateInitialFormatted = dateIniFormated;
+
+            setCalendarVisible(false);
+            setHeightModal(heightPercentageToDP('35'));
+
+            return
+        };
+
+        if (dateFinal == '') {
+            let dateFinFormated = `${date.dateString}T03:00:00.000Z`;
+
+            let dayFinal = format(new Date(dateFinFormated), 'dd');
+            let monthFinal = format(new Date(dateFinFormated), 'MM');
+
+            setDateFinal(dayFinal);
+            setMonthFinal(monthFinal);
+
+            dateFinalFormatted = dateFinFormated;
+            dateFinalFormatted = dateFinFormated;
+
+            setCalendarVisible(false);
+            setHeightModal(heightPercentageToDP('35'));
+
+            return
+        }
+    };
+
+
+    const handleSelectedInitial = () => {
+        setDateInitial('');
+        setMonthInitial('');
+        setCalendarVisible(true);
+        setHeightModal(heightPercentageToDP('75'));
+    };
+
+    const handleSelectedFinal = () => {
+        setDateFinal('');
+        setMonthFinal('');
+        setCalendarVisible(true);
+        setHeightModal(heightPercentageToDP('75'));
+    };
+
+    const handleApplyFilter = async () => {
+
+        if (Number(dateInitial) > Number(dateFinal)) {
+            return Alert.alert('', 'Data de entrada deve ser maior ou igual à saída.');
+        }
+
+        if (dateInitial == '' || dateFinal == '') {
+            return Alert.alert('Aviso', 'Favor selecionar o intervalo.');
+        } else {
+
+            let dates = {
+                dataInicio: dateInitialFormatted,
+                dataFim: dateFinalFormatted
+            };
+
+            const result = await getPropByInterval(dates);
+
+            if (result.message == "Não foram encontrados imóveis disponíveis neste intervalo.") {
+                return Alert.alert(result.message);
+            }
+
+            FilterModal.current?.close();
+        }
+    };
+
 
     // console.log(categorySelected);
 
@@ -113,6 +212,15 @@ export const Home = () => {
     };
 
 
+    const handleFilterActived = () => {
+        FilterModal.current?.open();
+        setCalendarVisible(false);
+        setHeightModal(heightPercentageToDP('35'));
+        setDateInitial('');
+        setMonthInitial('');
+        setDateFinal('');
+        setMonthFinal('');
+    };
 
 
     return (
@@ -131,7 +239,7 @@ export const Home = () => {
             <TxtWelcome>Seja bem-vindo(a)</TxtWelcome>
 
             <Header>
-                <BtnFilter onPress={() => FilterModal.current?.open()}>
+                <BtnFilter onPress={handleFilterActived}>
                     <MaterialCommunityIcons name="calendar-month" size={RFValue(25)} color={theme.colors.white} style={{ marginLeft: widthPercentageToDP('0.65'), marginTop: heightPercentageToDP('0.5') }} />
                 </BtnFilter>
 
@@ -189,11 +297,49 @@ export const Home = () => {
                 style={{ paddingLeft: widthPercentageToDP('6') }}
             />
 
-            <Modalize ref={FilterModal} modalHeight={heightPercentageToDP('60')} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
-                <Calendar ondaypress={(date) => console.log(date)}/>
+            <Modalize ref={FilterModal} modalHeight={heightModal} scrollViewProps={{ showsVerticalScrollIndicator: false }} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
 
+                <View style={{ flexDirection: 'row' }}>
+                    <TxtDateIni>Entrada:</TxtDateIni>
+
+                    <TxtDateFin>Saída:</TxtDateFin>
+                </View>
+
+                <AreaDates>
+
+                    <BtnDate onPress={handleSelectedInitial}>
+                        {
+                            dateInitial
+
+                                ? <>
+                                    <TxtDateSelected>{monthInitial == '01' ? 'Jan' : monthInitial == '02' ? 'Fev' : monthInitial == '03' ? 'Mar' : monthInitial == '04' ? 'Abr' : monthInitial == '05' ? 'Mai' : monthInitial == '06' ? 'Jun' : monthInitial == '07' ? 'Jul' : monthInitial == '08' ? 'Ago' : monthInitial == '09' ? 'Set' : monthInitial == '10' ? 'Out' : monthInitial == '11' ? 'Nov' : 'Dez'}</TxtDateSelected>
+                                    <TxtDateSelected>{dateInitial}</TxtDateSelected>
+                                </>
+
+                                : <MaterialIcons name="add-alarm" size={RFValue(30)} color={theme.colors.dark} />
+                        }
+                    </BtnDate>
+
+                    <BtnDate onPress={handleSelectedFinal}>
+                        {
+                            dateFinal
+
+                                ? <>
+                                    <TxtDateSelected>{monthFinal == '01' ? 'Jan' : monthFinal == '02' ? 'Fev' : monthFinal == '03' ? 'Mar' : monthFinal == '04' ? 'Abr' : monthFinal == '05' ? 'Mai' : monthFinal == '06' ? 'Jun' : monthFinal == '07' ? 'Jul' : monthFinal == '08' ? 'Ago' : monthFinal == '09' ? 'Set' : monthFinal == '10' ? 'Out' : monthFinal == '11' ? 'Nov' : 'Dez'}</TxtDateSelected>
+                                    <TxtDateSelected>{dateFinal}</TxtDateSelected>
+                                </>
+
+                                : <MaterialIcons name="add-alarm" size={RFValue(30)} color={theme.colors.dark} />
+                        }
+                    </BtnDate>
+
+                </AreaDates>
+                {
+                    calendarVisible &&
+                    <Calendar ondaypress={(date) => handleUserSelectDate(date)} />
+                }
                 <View style={{ alignSelf: 'center', marginTop: heightPercentageToDP('4') }}>
-                    <Button title={'Aplicar Filtro'} />
+                    <Button onpress={handleApplyFilter} title={'Aplicar Filtro'} />
                 </View>
 
             </Modalize>
