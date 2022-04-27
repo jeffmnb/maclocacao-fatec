@@ -19,10 +19,21 @@ import {
     BtnDate,
     TxtDateIni,
     TxtDateFin,
-    TxtDateSelected
+    TxtDateSelected,
+    TxtNotData,
+    TitleModalize,
+    TxtChoose,
+    AreaButtons,
+    ButtonChoose,
+    TxtQtd,
+    ButtonPrice,
+    TxtPrice,
+    FastInfo,
+    ButtonFilter,
+    TxtButton
 } from './styles';
 
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons, Octicons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
@@ -31,13 +42,14 @@ import { FlatList, View, Alert, TouchableOpacity } from 'react-native';
 import { CardHotel } from '../../components/CardHotel';
 import { Calendar, dataEntrada } from '../../components/Calendar';
 import { Modalize } from 'react-native-modalize';
-import { Button } from '../../components/Button';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { AuthContext, userDataStoraged } from '../../hooks/auth';
 
 import ImageUserProfile from '../../assets/ImageUser.png';
 import { format } from 'date-fns';
+import { CheckBox } from 'react-native-elements';
+import axios from 'axios';
 
 let dateInitialFormatted;
 let dateFinalFormatted;
@@ -55,6 +67,7 @@ export const Home = () => {
         // console.log(userDataStoraged.foto);
 
         setStateSearch(false);
+        setpropsByInterval([]);
 
     }, []));
 
@@ -66,19 +79,47 @@ export const Home = () => {
     };
 
 
-    const [allProps, setAllProps] = useState();
+    const [allProps, setAllProps] = useState([]);
+
+    const [propsByInterval, setpropsByInterval] = useState([]);
 
     const [stateSearch, setStateSearch] = useState(false);
 
     const [calendarVisible, setCalendarVisible] = useState(false);
 
-    const [heightModal, setHeightModal] = useState(heightPercentageToDP('35'));
+    const [heightModal, setHeightModal] = useState(heightPercentageToDP('70'));
 
     const [dateInitial, setDateInitial] = useState('');
     const [dateFinal, setDateFinal] = useState('');
 
     const [monthInitial, setMonthInitial] = useState();
     const [monthFinal, setMonthFinal] = useState();
+
+
+    const [numBed, setNumBed] = useState(1);
+    const [numBath, setNumBath] = useState(1);
+    const [buttonActived, setButtonActived] = useState('');
+    const [agreePet, setAgreePet] = useState(false);
+    const [rest, setRest] = useState(false);
+    const [suite, setSuite] = useState(false);
+
+
+    const handleUserFilter = async () => {
+
+        const dataFilter = {
+            numBed,
+            numBath,
+            priceOrder: buttonActived,
+            agreePet,
+            rest,
+            suite
+        };
+
+        const teste = await axios.post('http://192.168.0.17:8000/properties/filterprops', dataFilter);
+
+        console.log(teste.data.allProps);
+
+    };
 
 
     const handleUserSelectDate = (date) => {
@@ -97,7 +138,7 @@ export const Home = () => {
             dateInitialFormatted = dateIniFormated;
 
             setCalendarVisible(false);
-            setHeightModal(heightPercentageToDP('35'));
+            setHeightModal(heightPercentageToDP('70'));
 
             return
         };
@@ -115,7 +156,7 @@ export const Home = () => {
             dateFinalFormatted = dateFinFormated;
 
             setCalendarVisible(false);
-            setHeightModal(heightPercentageToDP('35'));
+            setHeightModal(heightPercentageToDP('70'));
 
             return
         }
@@ -126,14 +167,14 @@ export const Home = () => {
         setDateInitial('');
         setMonthInitial('');
         setCalendarVisible(true);
-        setHeightModal(heightPercentageToDP('75'));
+        setHeightModal(heightPercentageToDP('70'));
     };
 
     const handleSelectedFinal = () => {
         setDateFinal('');
         setMonthFinal('');
         setCalendarVisible(true);
-        setHeightModal(heightPercentageToDP('75'));
+        setHeightModal(heightPercentageToDP('70'));
     };
 
     const handleApplyFilter = async () => {
@@ -152,6 +193,10 @@ export const Home = () => {
             };
 
             const result = await getPropByInterval(dates);
+
+            if (result.props) {
+                setpropsByInterval(result.props);
+            }
 
             if (result.message == "Não foram encontrados imóveis disponíveis neste intervalo.") {
                 return Alert.alert(result.message);
@@ -214,12 +259,19 @@ export const Home = () => {
 
     const handleFilterActived = () => {
         FilterModal.current?.open();
+        setButtonActived('');
         setCalendarVisible(false);
-        setHeightModal(heightPercentageToDP('35'));
+        setHeightModal(heightPercentageToDP('70'));
         setDateInitial('');
         setMonthInitial('');
         setDateFinal('');
         setMonthFinal('');
+        setNumBed(1);
+        setNumBath(1);
+        setButtonActived('Todos');
+        setAgreePet(false);
+        setRest(false);
+        setSuite(false);
     };
 
 
@@ -240,7 +292,7 @@ export const Home = () => {
 
             <Header>
                 <BtnFilter onPress={handleFilterActived}>
-                    <MaterialCommunityIcons name="calendar-month" size={RFValue(25)} color={theme.colors.white} style={{ marginLeft: widthPercentageToDP('0.65'), marginTop: heightPercentageToDP('0.5') }} />
+                    <Octicons name="settings" size={RFValue(23)} color={theme.colors.white} />
                 </BtnFilter>
 
                 <Areainput>
@@ -286,7 +338,7 @@ export const Home = () => {
 
             <FlatList
                 keyExtractor={(item) => String(item._id)}
-                data={allProps}
+                data={propsByInterval.length > 1 ? propsByInterval : allProps}
                 renderItem={({ item }) => (
 
                     <CardHotel title={item.nome} foto={item.fotos[0]} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => handleEnterProp(item)} />
@@ -297,7 +349,131 @@ export const Home = () => {
                 style={{ paddingLeft: widthPercentageToDP('6') }}
             />
 
-            <Modalize ref={FilterModal} modalHeight={heightModal} scrollViewProps={{ showsVerticalScrollIndicator: false }} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
+            <Modalize ref={FilterModal} modalHeight={heightModal} scrollViewProps={{ showsVerticalScrollIndicator: true }} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
+
+                <TitleModalize>Busque imóveis do seu jeito 😃</TitleModalize>
+
+                <View style={{ width: widthPercentageToDP('72'), flexDirection: 'row', marginTop: heightPercentageToDP('8'), alignSelf: 'center', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <TxtChoose>Nº de quartos: </TxtChoose>
+
+                    <AreaButtons>
+                        <ButtonChoose onPress={() => {
+                            if (numBed == 1 || numBed < 1) {
+                                return;
+                            }
+                            setNumBed(numBed - 1);
+                        }}>
+                            <MaterialIcons name="remove" size={RFValue(24)} color={theme.colors.white} />
+                        </ButtonChoose>
+
+                        <TxtQtd>{numBed}</TxtQtd>
+
+                        <ButtonChoose onPress={() => setNumBed(numBed + 1)}>
+                            <MaterialIcons name="add" size={RFValue(24)} color={theme.colors.white} />
+                        </ButtonChoose>
+                    </AreaButtons>
+                </View>
+
+                <View style={{ width: widthPercentageToDP('72'), flexDirection: 'row', marginTop: heightPercentageToDP('5'), alignSelf: 'center', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <TxtChoose>Nº de banheiros: </TxtChoose>
+
+                    <AreaButtons>
+                        <ButtonChoose onPress={() => {
+                            if (numBath == 1 || numBath < 1) {
+                                return;
+                            }
+                            setNumBath(numBath - 1);
+                        }}>
+                            <MaterialIcons name="remove" size={RFValue(24)} color={theme.colors.white} />
+                        </ButtonChoose>
+
+                        <TxtQtd>{numBath}</TxtQtd>
+
+                        <ButtonChoose onPress={() => setNumBath(numBath + 1)}>
+                            <MaterialIcons name="add" size={RFValue(24)} color={theme.colors.white} />
+                        </ButtonChoose>
+                    </AreaButtons>
+                </View>
+
+                <View style={{ width: widthPercentageToDP('72'), marginTop: heightPercentageToDP('5'), alignSelf: 'center', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                    <View style={{ marginLeft: widthPercentageToDP('4'), marginTop: heightPercentageToDP('1.5') }}>
+                        <TxtChoose>Preço: </TxtChoose>
+                    </View>
+
+                    <View style={{ width: '100%', marginTop: heightPercentageToDP('2.5'), flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                        <ButtonPrice style={{ backgroundColor: buttonActived == 'Maior' ? theme.colors.blue : theme.colors.white }} onPress={() => setButtonActived('Maior')}>
+                            <TxtPrice style={{ color: buttonActived == 'Maior' ? theme.colors.white : theme.colors.blue }}>Maior</TxtPrice>
+                        </ButtonPrice>
+
+                        <ButtonPrice style={{ backgroundColor: buttonActived == 'Menor' ? theme.colors.blue : theme.colors.white }} onPress={() => setButtonActived('Menor')}>
+                            <TxtPrice style={{ color: buttonActived == 'Menor' ? theme.colors.white : theme.colors.blue }}>Menor</TxtPrice>
+                        </ButtonPrice>
+
+                    </View>
+
+                </View>
+
+                <FastInfo>
+                    <TxtChoose>Aceitam Pets</TxtChoose>
+
+                    <CheckBox
+                        title={agreePet == false ? 'Não' : 'Sim'}
+                        checkedIcon="check"
+                        uncheckedIcon="close"
+                        checkedColor={theme.colors.blue}
+                        uncheckedColor={theme.colors.blue}
+                        checked={agreePet}
+                        onPress={() => setAgreePet(!agreePet)}
+                        containerStyle={{ marginTop: heightPercentageToDP('2'), width: widthPercentageToDP('24'), alignSelf: 'center', backgroundColor: 'transparent', marginRight: widthPercentageToDP('5.5') }}
+                    />
+
+                </FastInfo>
+
+                <View style={{ width: '100%', flexDirection: 'row', marginLeft: widthPercentageToDP('2') }}>
+
+                    <FastInfo>
+                        <TxtChoose>Restaurante</TxtChoose>
+
+                        <CheckBox
+                            title={rest == false ? 'Não' : 'Sim'}
+                            checkedIcon="check"
+                            uncheckedIcon="close"
+                            checkedColor={theme.colors.blue}
+                            uncheckedColor={theme.colors.blue}
+                            checked={rest}
+                            onPress={() => setRest(!rest)}
+                            containerStyle={{ marginTop: heightPercentageToDP('2'), width: widthPercentageToDP('24'), alignSelf: 'center', backgroundColor: 'transparent', marginRight: widthPercentageToDP('5.5') }}
+                        />
+
+                    </FastInfo>
+
+                    <FastInfo>
+                        <TxtChoose>Suíte</TxtChoose>
+
+                        <CheckBox
+                            title={suite == false ? 'Não' : 'Sim'}
+                            checkedIcon="check"
+                            uncheckedIcon="close"
+                            checkedColor={theme.colors.blue}
+                            uncheckedColor={theme.colors.blue}
+                            checked={suite}
+                            onPress={() => setSuite(!suite)}
+                            containerStyle={{ marginTop: heightPercentageToDP('2'), width: widthPercentageToDP('24'), alignSelf: 'center', backgroundColor: 'transparent', marginRight: widthPercentageToDP('5.5') }}
+                        />
+
+                    </FastInfo>
+
+                </View>
+
+                <ButtonFilter onPress={handleUserFilter}>
+                    <TxtButton>Filtrar</TxtButton>
+                </ButtonFilter>
+
+            </Modalize>
+
+            {/* <Modalize ref={FilterModal} modalHeight={heightModal} scrollViewProps={{ showsVerticalScrollIndicator: false }} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
 
                 <View style={{ flexDirection: 'row' }}>
                     <TxtDateIni>Entrada:</TxtDateIni>
@@ -342,11 +518,16 @@ export const Home = () => {
                     <Button onpress={handleApplyFilter} title={'Aplicar Filtro'} />
                 </View>
 
-            </Modalize>
+            </Modalize> */}
 
 
+            {
+                allProps.length < 1 && propsByInterval.length < 1
 
+                && <TxtNotData>Ops, não temos nenhum imóvel no momento ☹️</TxtNotData>
 
-        </Container>
+            }
+
+        </Container >
     );
 }

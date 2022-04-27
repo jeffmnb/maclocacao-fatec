@@ -77,9 +77,9 @@ export const UserSchedules = () => {
         ])
     };
 
-    // if (loading) {
-    //     return <Load />
-    // }
+    if (loading) {
+        return <Load />
+    }
     return (
         <Container>
 

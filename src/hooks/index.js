@@ -10,7 +10,7 @@ export const loginUser = async (email, senha) => {
     };
 
     try {
-        const response = await axios.post('http://10.0.62.47:8000/user/login', userData);
+        const response = await axios.post('http://192.168.0.6:8000/user/login', userData);
         // console.log(response.data);
 
         if (response.data.user) {
@@ -31,7 +31,7 @@ export const loginUser = async (email, senha) => {
 export const signUp = async (dataUser) => {
 
     try {
-        const response = await axios.post('http://10.0.62.47:8000/user/cadastro', dataUser);
+        const response = await axios.post('http://192.168.0.6:8000/user/cadastro', dataUser);
 
         return response.data;
     } catch (error) {
@@ -49,7 +49,7 @@ export const recoverPass = async (numberUser) => {
 
         const data = { telefone: '+55' + numberUser };
 
-        const response = await axios.post('http://10.0.62.47:8000/user/enviasmsvalidacao', data);
+        const response = await axios.post('http://192.168.0.6:8000/user/enviasmsvalidacao', data);
         // console.log(response.data);
 
         return response;
@@ -66,7 +66,7 @@ export const changeTelefone = async (numberUser) => {
 
         const data = { telefone: '+55' + numberUser };
 
-        const response = await axios.post('http://10.0.62.47:8000/user/enviasmsvalidacaotroca', data);
+        const response = await axios.post('http://192.168.0.6:8000/user/enviasmsvalidacaotroca', data);
         console.log(response.data);
 
         return response.data;
@@ -83,7 +83,7 @@ export const verificateSms = async (code, idSms) => {
         token: code
     };
 
-    const response = await axios.post('http://10.0.62.47:8000/user/smsvalidacao', dataSms);
+    const response = await axios.post('http://192.168.0.6:8000/user/smsvalidacao', dataSms);
 
     return response.data;
 };
@@ -99,7 +99,7 @@ export const verificateSmsTelefone = async (code, idSms, telefoneUser, idUser) =
         idUser
     };
 
-    const response = await axios.post('http://10.0.62.47:8000/user/smsvalidacaotelefone', dataSms);
+    const response = await axios.post('http://192.168.0.6:8000/user/smsvalidacaotelefone', dataSms);
 
     return response.data;
 };

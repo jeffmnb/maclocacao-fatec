@@ -62,6 +62,8 @@ export const HotelDescription = () => {
     const verificateFavorite = async () => {
         const response = await getAllFavorites();
 
+        console.log(response);
+
         let favoritesUser = response.favoriteProps;
 
         // console.log(favoritesUser);

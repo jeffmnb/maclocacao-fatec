@@ -34,7 +34,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-import { recoverPass, verificateSms } from '../../hooks';
+import { recoverPass, verificateSms, changeTelefone } from '../../hooks';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -118,16 +118,18 @@ export const SignUp = () => {
             return Alert.alert('Favor inserir seu número');
         }
 
-        const response = await recoverPass(telefoneSms);
-        console.log(response.data);
+        const response = await changeTelefone(telefoneSms);
+        // console.log(response);
 
-        if (response.data.id) {
+        if (response.id) {
             fourthModal.current?.open();
             thirdModal.current?.close();
             secondModal.current?.close();
             firstModal.current?.close();
             fifthModal.current?.close();
-            setIdTokenSms(response.data.id);
+            setIdTokenSms(response.id);
+            // console.log(response.id);
+
         } else {
             fourthModal.current?.close();
             return Alert.alert(response.data.message);
@@ -139,10 +141,48 @@ export const SignUp = () => {
         const smsCode = code1 + code2 + code3 + code4 + code5 + code6;
 
         const response = await verificateSms(smsCode, idTokenSms);
-        console.log(response);
+        // console.log(response);
 
         if (response.message == "SMS validado com sucesso") {
-            sixModal.current?.open();
+
+
+            const dataUser = {
+                nome: nomeForm,
+                email: emailForm,
+                senha: senhaForm,
+                rg: rgForm,
+                cpf: cpfForm,
+                endereco: enderecoForm,
+                foto: imageUserBase64,
+                telefone: '+55' + telefoneForm,
+            };
+
+            const response = await signUp(dataUser);
+
+            // console.log(response);
+
+            if (response.message == 'Dados inválidos.') {
+                return Alert.alert(response.message, 'Certifique se todos os campos foram preenchidos');
+            };
+
+            if (response.message == 'Este email já possui uma conta.') {
+                return Alert.alert('Este email já possui uma conta.');
+            }
+
+            if (response.message == 'Este telefone já possui uma conta') {
+                setTelefoneForm();
+                return Alert.alert('Este telefone já possui uma conta');
+            }
+
+            if (response.newUser) {
+                setLoading(true);
+                setTimeout(() => {
+                    setLoading(false);
+                    Navigation.navigate('Home');
+                }, 3000);
+            };
+
+            
             setIdTokenSms('');
         } else {
             setIdTokenSms('');
@@ -170,7 +210,7 @@ export const SignUp = () => {
 
         const data = await signIn(emailUser, passUser);
 
-        console.log(data);
+        // console.log(data);
 
         if (data) {
 
@@ -213,41 +253,30 @@ export const SignUp = () => {
             return Alert.alert('As senhas não batem');
         };
 
-        const dataUser = {
-            nome: nomeForm,
-            email: emailForm,
-            senha: senhaForm,
-            rg: rgForm,
-            cpf: cpfForm,
-            endereco: enderecoForm,
-            foto: imageUserBase64,
-            telefone: '+55' + telefoneForm,
+        if (rgForm == '' || cpfForm == '' || enderecoForm == '' || telefoneForm == '') {
+            return Alert.alert('Favor preencher todos os campos');
         };
 
-        const response = await signUp(dataUser);
+        secondModal.current?.close();
 
-        console.log(response);
+        const dataSms = await changeTelefone(telefoneForm);
 
-        if (response.message == 'Dados inválidos.') {
-            return Alert.alert(response.message, 'Certifique se todos os campos foram preenchidos');
+        console.log(dataSms.response);
+        setIdTokenSms(dataSms.response.id);
+
+        fourthModal.current?.open();
+    };
+
+
+
+    const handleContinueSignUp = () => {
+
+        if (nomeForm == '' || emailForm == '' || senhaForm == '' || confSenhaForm == '') {
+            return Alert.alert('Favor preencher todos os campos');
         };
 
-        if (response.message == 'Este email já possui uma conta.') {
-            return Alert.alert('Este email já possui uma conta.');
-        }
-
-        if (response.message == 'Este telefone já possui uma conta') {
-            setTelefoneForm();
-            return Alert.alert('Este telefone já possui uma conta');
-        }
-
-        if (response.newUser) {
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                Navigation.navigate('Home');
-            }, 3000);
-        };
+        firstModal.current?.close();
+        secondModal.current?.open();
     };
 
     if (loading) {
@@ -278,10 +307,9 @@ export const SignUp = () => {
                 <MyInput placeholder='Confirmar Senha' secure={true} onchangetext={(text => setConfSenhaForm(text))} />
 
                 <View style={{ marginTop: heightPercentageToDP('3') }}>
-                    <Button onpress={() => secondModal.current?.open()} title={'Continuar'} />
+                    <Button onpress={handleContinueSignUp} title={'Continuar'} />
                 </View>
             </Modalize>
-
 
 
             <Modalize scrollViewProps={{ showsVerticalScrollIndicator: false }} ref={secondModal} modalHeight={heightPercentageToDP('93')} overlayStyle={{ backgroundColor: 'transparent' }} childrenStyle={{ paddingBottom: heightPercentageToDP('4') }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: 25, paddingTop: '10%' }}>

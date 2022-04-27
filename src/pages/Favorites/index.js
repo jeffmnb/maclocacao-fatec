@@ -28,13 +28,13 @@ export const Favorites = () => {
     const { getAllFavorites } = useContext(AuthContext);
 
     useFocusEffect(useCallback(() => {
-        // setLoading(true);
+        setLoading(true);
 
         getFavorites();
 
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 2700);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2700);
     }, []));
 
 
@@ -45,9 +45,9 @@ export const Favorites = () => {
     };
 
 
-    // if (loading) {
-    //     return <Load />
-    // }
+    if (loading) {
+        return <Load />
+    }
     return (
         <Container>
 

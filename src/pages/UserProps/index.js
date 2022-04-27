@@ -13,7 +13,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../theme';
-import { FlatList, View } from 'react-native';
+import { Alert, FlatList, View } from 'react-native';
 import { CardHotel } from '../../components/CardHotel';
 import { Load } from '../../components/Load';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -40,7 +40,7 @@ export const UserProps = () => {
         }, 2700);
     }, []));
 
-    const { getAllPropsByUser } = useContext(AuthContext);
+    const { getAllPropsByUser, deleteUserProp } = useContext(AuthContext);
 
     const getProps = async () => {
         const response = await getAllPropsByUser();
@@ -50,10 +50,28 @@ export const UserProps = () => {
         }
     };
 
+    const handleClickProp = (item) => {
+        Alert.alert('', 'Deseja deletar este imóvel?', [
+            {
+                text: 'Não',
+                style: 'cancel'
+            },
+            {
+                text: 'Sim',
+                onPress: async () => {
+                    const result = await deleteUserProp(item._id);
+                    if (result.error == false) {
+                        Alert.alert('',result.message);
+                    }
+                }
+            }
+        ])
+    };
 
-    // if (loading) {
-    //     return <Load />
-    // }
+
+    if (loading) {
+        return <Load />
+    }
     return (
         <Container>
 
@@ -84,7 +102,7 @@ export const UserProps = () => {
                     showsVerticalScrollIndicator={false}
                     style={{ marginTop: heightPercentageToDP('2') }}
                     renderItem={({ item }) => (
-                        <CardHotel foto={item.fotos[0]} title={item.nome} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => Navigation.navigate('HotelDescription', { item })} />
+                        <CardHotel foto={item.fotos[0]} title={item.nome} location={`${item.endereco.cidade}, ${item.endereco.estado}`} onpress={() => handleClickProp(item)} />
                     )}
                     contentContainerStyle={{ marginLeft: widthPercentageToDP('4.5') }}
                 />}

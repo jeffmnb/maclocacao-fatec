@@ -177,3 +177,92 @@ export const TxtDateSelected = styled.Text`
     color: ${theme.colors.dark};
     margin-top: ${hp('0.5')};
 `;
+
+export const TxtNotData = styled.Text`
+    text-align: center;
+    font-family: ${theme.fonts.PoppinsBold};
+    color: ${theme.colors.gray};
+    opacity: 0.5;
+    font-size: ${RFValue(16)}px;
+    line-height: ${RFValue(30)}px;
+bottom: ${hp('15')};
+`;
+
+export const TitleModalize = styled.Text`
+    font-family: ${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(18)}px;
+    text-align: center;
+    color: ${theme.colors.dark}
+`;
+
+export const TxtChoose = styled.Text`
+    font-family: ${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(15)}px;
+    text-align: center;
+    color: ${theme.colors.gray};
+    margin-right: ${wp('4')};
+`;
+
+export const AreaButtons = styled.View`
+    width:${wp('25')};
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+export const ButtonChoose = styled.TouchableOpacity`
+    width: ${RFValue(27)}px;
+    height: ${RFValue(27)}px;
+    border-radius: ${RFValue(17)}px;
+    justify-content: center;
+    align-items: center;
+    background-color: ${theme.colors.blue};
+`;
+
+export const TxtQtd = styled.Text`
+    font-family: ${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(16)}px;
+    text-align: center;
+    color: ${theme.colors.gray};
+`;
+
+export const ButtonPrice = styled.TouchableOpacity`
+    height: ${hp('5')};
+    width:${wp('30')} ;
+    border-radius: ${wp('7')};
+    justify-content: center;
+    align-items: center;
+    border-width: 1.5;
+    border-color: ${theme.colors.blue};
+`;
+
+export const TxtPrice = styled.Text`
+    font-family:${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(13)}px;
+`;
+
+export const FastInfo = styled.View`
+    flex:1;
+    width: ${wp('100')};
+    margin-top:${hp('5.5')};
+    align-items: center;
+    justify-content: center;
+`;
+
+export const ButtonFilter = styled.TouchableOpacity`
+    width: ${wp('35')};
+    height: ${hp('6.5')};
+    background-color: ${theme.colors.blue};
+    justify-content: center;
+    align-items: center;
+    border-radius: ${wp('9')};
+    margin-bottom: ${hp('2')};
+    align-self:center ;
+    margin-top:${hp('5')};
+`;
+
+export const TxtButton = styled.Text`
+    font-family: ${theme.fonts.PoppinsBold};
+    font-size: ${RFValue(16)}px;
+    color: ${theme.colors.white};
+`;
