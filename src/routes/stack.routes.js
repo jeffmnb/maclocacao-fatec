@@ -23,7 +23,7 @@ export const StackRoutes = () => {
             }
 
 
-            <Stack.Screen name='Welcome' component={Welcome} />
+            {/* <Stack.Screen name='Welcome' component={Welcome} /> */}
             <Stack.Screen name='SignUp' component={SignUp} />
             <Stack.Screen name='Home' component={TabsRoute} />
             <Stack.Screen name='HotelDescription' component={HotelDescription} />

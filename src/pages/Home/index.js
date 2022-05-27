@@ -115,7 +115,7 @@ export const Home = () => {
             suite
         };
 
-        const teste = await axios.post('http://192.168.0.17:8000/properties/filterprops', dataFilter);
+        const teste = await axios.post('http://10.0.4.41:8000/properties/filterprops', dataFilter);
 
         console.log(teste.data.allProps);
 
@@ -349,7 +349,7 @@ export const Home = () => {
                 style={{ paddingLeft: widthPercentageToDP('6') }}
             />
 
-            <Modalize ref={FilterModal} modalHeight={heightModal} scrollViewProps={{ showsVerticalScrollIndicator: true }} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
+            <Modalize ref={FilterModal} modalHeight={heightModal} scrollViewProps={{ showsVerticalScrollIndicator: false }} overlayStyle={{ backgroundColor: 'rgba(0,0,0,0.5)' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: RFValue(10), paddingTop: '10%' }}>
 
                 <TitleModalize>Busque imóveis do seu jeito 😃</TitleModalize>
 

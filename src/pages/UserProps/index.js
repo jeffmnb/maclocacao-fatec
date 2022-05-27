@@ -38,6 +38,8 @@ export const UserProps = () => {
         setTimeout(() => {
             setLoading(false);
         }, 2700);
+
+        console.log(myProps);
     }, []));
 
     const { getAllPropsByUser, deleteUserProp } = useContext(AuthContext);
@@ -97,7 +99,7 @@ export const UserProps = () => {
                 myProps.length > 0 &&
 
                 <FlatList
-                    keyExtractor={item => String(item)}
+                    keyExtractor={item => String(item._id)}
                     data={myProps}
                     showsVerticalScrollIndicator={false}
                     style={{ marginTop: heightPercentageToDP('2') }}

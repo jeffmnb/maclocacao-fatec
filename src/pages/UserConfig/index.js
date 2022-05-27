@@ -41,7 +41,7 @@ export const UserConfig = () => {
 
           await AsyncStorage.setItem('userteste', JSON.stringify(null));
 
-          Navigation.navigate('Welcome');
+          Navigation.navigate('SignUp');
         }
       }
     ])

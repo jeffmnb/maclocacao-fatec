@@ -8,13 +8,11 @@ import { Alert, Appearance } from "react-native";
 export const AuthContext = createContext({});
 
 
-
-const { HOST_SERVER_WS } = process.env;
+const { URI_API } = process.env;
 
 export let userDataStoraged; // DADOS DO USUARIO SALVO NO STORAGE;
 
 //export let allProperties = []; //DADOS BUSCANDO DE TODOS OS IMOVEIS
-
 
 
 export const loadUserData = async () => {
@@ -55,7 +53,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.post(`${HOST_SERVER_WS || 'http://.168.0.6:8000'}/user/login`, userData);
+            const response = await axios.post(`${URI_API}/user/login`, userData);
 
             if (response.data.user) {
 
@@ -96,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.post(`${HOST_SERVER_WS || 'http://192.168.0.6:8000'}/user/cadastro`, data);
+            const response = await axios.post(`${URI_API}/user/cadastro`, data);
 
             console.log(response.data);
 
@@ -139,7 +137,7 @@ export const AuthProvider = ({ children }) => {
     const getAllProperties = async () => {
 
         try {
-            const response = await axios.get('http://:8000/properties/');
+            const response = await axios.get(`${URI_API}/properties/`);
 
             return response.data.allProperties;
 
@@ -153,7 +151,7 @@ export const AuthProvider = ({ children }) => {
     //CADASTRA NOVO IMOVEL
     const createNewProp = async (property) => {
         try {
-            const response = await axios.post('http://192.168.0.6:8000/properties/cadastro', property);
+            const response = await axios.post(`${URI_API}/properties/cadastro`, property);
 
             return response.data;
         } catch (error) {
@@ -168,7 +166,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.put(`http://192.168.0.6:8000/user/addfavorites/${userDataStoraged._id}`, data);
+            const response = await axios.put(`${URI_API}/user/addfavorites/${userDataStoraged._id}`, data);
 
             return response.data;
 
@@ -183,7 +181,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.put(`http://192.168.0.6:8000/user/removefavorite/${userDataStoraged._id}`, data);
+            const response = await axios.put(`${URI_API}/user/removefavorite/${userDataStoraged._id}`, data);
 
             return response.data;
 
@@ -199,7 +197,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.get(`http://192.168.0.6:8000/user/callfavorites/${userDataStoraged._id}`);
+            const response = await axios.get(`${URI_API}/user/callfavorites/${userDataStoraged._id}`);
 
             return response.data;
 
@@ -216,7 +214,7 @@ export const AuthProvider = ({ children }) => {
 
             const data = { title: category }
 
-            const response = await axios.post('http://192.168.0.6:8000/properties/propcategoria', data);
+            const response = await axios.post(`${URI_API}/properties/propcategoria`, data);
 
             return response.data;
 
@@ -232,7 +230,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const newPhoto = await axios.put(`http://192.168.0.6:8000/user/trocafoto/${userDataStoraged._id}`, { foto: base64 });
+            const newPhoto = await axios.put(`${URI_API}/user/trocafoto/${userDataStoraged._id}`, { foto: base64 });
 
             if (newPhoto.data.newFoto) {
                 console.log(newPhoto.data.newFoto);
@@ -254,7 +252,7 @@ export const AuthProvider = ({ children }) => {
     const getAllPropsByUser = async () => {
 
         try {
-            const response = await axios.get(`http://192.168.0.6:8000/user/imoveis/${userDataStoraged._id}`);
+            const response = await axios.get(`${URI_API}/user/imoveis/${userDataStoraged._id}`);
             return response.data;
         } catch (error) {
             console.log(error.message);
@@ -265,7 +263,7 @@ export const AuthProvider = ({ children }) => {
     //CRIA UM NOVO AGENDAMENTO
     const createNewSchedule = async (data) => {
         try {
-            const response = await axios.post('http://192.168.0.6:8000/properties/agendamento', data);
+            const response = await axios.post(`${URI_API}/properties/agendamento`, data);
 
             return response.data;
 
@@ -280,7 +278,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.get(`http://192.168.0.6:8000/user/myschedules/${userDataStoraged._id}`);
+            const response = await axios.get(`${URI_API}/user/myschedules/${userDataStoraged._id}`);
 
             return response.data;
 
@@ -296,7 +294,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await axios.delete(`http://192.168.0.6:8000/properties/cancelchedule/${idSchedule}`);
+            const response = await axios.delete(`${URI_API}/properties/cancelchedule/${idSchedule}`);
 
             return response.data;
 
@@ -311,7 +309,7 @@ export const AuthProvider = ({ children }) => {
     const getPropByInterval = async (dates) => {
         try {
 
-            const result = await axios.post('http://192.168.0.6:8000/properties/propbydate', dates);
+            const result = await axios.post(`${URI_API}/properties/propbydate`, dates);
 
             return result.data;
 
@@ -327,7 +325,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
 
-            const result = await axios.delete(`http://192.168.0.6:8000/user/deleletepropuser/${userDataStoraged._id}/${idProp}`);
+            const result = await axios.delete(`${URI_API}/user/deleletepropuser/${userDataStoraged._id}/${idProp}`);
 
             return result.data;
 

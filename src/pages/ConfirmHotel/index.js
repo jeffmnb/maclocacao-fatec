@@ -263,7 +263,7 @@ export const ConfirmHotel = () => {
 
 
                 <View style={{ width: '100%', alignItems: 'center' }}>
-                    <ButtonPay onpress={handleConfirmCode} type={'card'} title={'Pagar com cartão'} />
+                    <ButtonPay onpress={handleConfirmSchedule} type={'card'} title={'Pagar com cartão'} />
 
                     <ButtonPay onpress={handleConfirmSchedule} title={'Pagar com Pix         '} />
 

@@ -13,7 +13,7 @@ export const Container = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     border-radius: ${wp('9')};
-    margin-bottom: ${hp('2')};
+    margin-top: ${hp('2')};
 `;
 
 export const Title = styled.Text`

@@ -11,7 +11,6 @@ export const Container = styled.View`
     height: ${hp('5.5')};    
     padding-top:${hp('1')};
     border-bottom-width:1px;
-    border-color: ${theme.colors.gray};
     align-self: center;
     margin-bottom: ${hp('4')};
 `;

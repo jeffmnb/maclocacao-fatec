@@ -41,6 +41,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from '../../hooks/auth';
+import { InputCpf } from '../../components/InputCpf';
 
 export const SignUp = () => {
 
@@ -57,6 +58,9 @@ export const SignUp = () => {
         setTelefoneForm('');
         setImageUser(null);
         setImageUserBase64(null);
+        thirdModal.current?.close();
+        setEmailUser('');
+        setPassUser('');
     }, [firstModal, secondModal]));
 
     const { signIn, signUp } = useContext(AuthContext);
@@ -71,6 +75,8 @@ export const SignUp = () => {
     const [passUser, setPassUser] = useState('');
 
     const [telefoneSms, setTelefoneSms] = useState('');
+
+    const [cpfValid, setCpfValid] = useState(false);
 
     const [code1, setCode1] = useState('');
     const [code2, setCode2] = useState('');
@@ -141,7 +147,7 @@ export const SignUp = () => {
         const smsCode = code1 + code2 + code3 + code4 + code5 + code6;
 
         const response = await verificateSms(smsCode, idTokenSms);
-        // console.log(response);
+        console.log(response);
 
         if (response.message == "SMS validado com sucesso") {
 
@@ -150,7 +156,7 @@ export const SignUp = () => {
                 nome: nomeForm,
                 email: emailForm,
                 senha: senhaForm,
-                rg: rgForm,
+                // rg: rgForm,
                 cpf: cpfForm,
                 endereco: enderecoForm,
                 foto: imageUserBase64,
@@ -182,7 +188,7 @@ export const SignUp = () => {
                 }, 3000);
             };
 
-            
+
             setIdTokenSms('');
         } else {
             setIdTokenSms('');
@@ -249,11 +255,15 @@ export const SignUp = () => {
 
     const handleSignUpUser = async () => {
 
+        if (!cpfValid) {
+            return Alert.alert('CPF Inválido.')
+        }
+
         if (senhaForm != confSenhaForm) {
             return Alert.alert('As senhas não batem');
         };
 
-        if (rgForm == '' || cpfForm == '' || enderecoForm == '' || telefoneForm == '') {
+        if (cpfForm == '' || enderecoForm == '' || telefoneForm == '') {
             return Alert.alert('Favor preencher todos os campos');
         };
 
@@ -279,6 +289,44 @@ export const SignUp = () => {
         secondModal.current?.open();
     };
 
+
+    const validCpf = (cpf) => {
+        setCpfForm(cpf);
+
+        var Soma;
+        var Resto;
+        Soma = 0;
+        if (cpf == "00000000000") {
+            setCpfValid(false);
+            console.log('cpf invalido');
+            return
+        }
+
+        for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        Resto = (Soma * 10) % 11;
+
+        if ((Resto == 10) || (Resto == 11)) Resto = 0;
+        if (Resto != parseInt(cpf.substring(9, 10))) {
+            setCpfValid(false);
+            console.log('cpf invalido');
+            return
+        }
+
+        Soma = 0;
+        for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        Resto = (Soma * 10) % 11;
+
+        if ((Resto == 10) || (Resto == 11)) Resto = 0;
+        if (Resto != parseInt(cpf.substring(10, 11))) {
+            setCpfValid(false);
+            console.log('cpf invalido');
+            return
+        };
+
+        setCpfValid(true);
+        console.log('CPF VALIDO');
+    };
+
     if (loading) {
         return <Load />
     }
@@ -291,9 +339,11 @@ export const SignUp = () => {
                 <TxtTitle>Olá, seja bem vindo!</TxtTitle>
                 <TxtSubTitle>Faça seu cadastro, e encontre seu próximo descanço 😉</TxtSubTitle>
 
-                <Button onpress={() => firstModal.current?.open()} title={'Quero me cadastrar 🙏'} />
                 {/* <Button onpress={() => firstModal.current?.open()} title={'Acessar'} /> */}
                 <TouchableOpacity onPress={() => thirdModal.current?.open()}><TxtLogin>Já possuo uma conta</TxtLogin></TouchableOpacity>
+
+                <Button onpress={() => firstModal.current?.open()} title={'Quero me cadastrar 🙏'} />
+
             </AreaMessage>
 
             <Modalize ref={firstModal} modalHeight={heightPercentageToDP('72')} overlayStyle={{ backgroundColor: 'transparent' }} modalStyle={{ borderTopLeftRadius: RFValue(25), borderTopRightRadius: RFValue(25), backgroundColor: theme.colors.white, paddingHorizontal: 25, paddingTop: '10%' }}>
@@ -317,8 +367,9 @@ export const SignUp = () => {
 
                 <Subtitle>Preencha os campos e pule de etapa</Subtitle>
 
-                <MyInput placeholder='RG' onchangetext={(text) => setRgForm(text)} />
-                <MyInput placeholder='CPF' onchangetext={(text) => setCpfForm(text)} />
+                {/* <MyInput placeholder='RG' onchangetext={(text) => setRgForm(text)} /> */}
+                <InputCpf cpfVal={cpfValid} placeholder='CPF' onchangetext={(text) => validCpf(text)} />
+                {/* <MyInput cpfVal={cpfValid} placeholder='CPF' onchangetext={(text) => validCpf(text)} /> */}
                 <MyInput placeholder='Endereço' onchangetext={(text) => setEnderecoForm(text)} />
                 {/* <MyInput placeholder='Número' /> */}
                 <MyInput placeholder='Telefone' onchangetext={(text) => setTelefoneForm(text)} />
