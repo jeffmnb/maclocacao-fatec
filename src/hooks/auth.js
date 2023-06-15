@@ -46,9 +46,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post(`${URI_API}/user/login`, userData);
 
-      if (response.data.user) {
-        //setUser(response.data.user);
+      const {
+        data: { error },
+      } = response;
 
+      if (!error) {
         const data = response.data.user;
 
         console.log(data);
@@ -82,9 +84,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post(`${URI_API}/user/cadastro`, data);
 
-      console.log(response.data);
+      const {
+        data: { error },
+      } = response;
 
-      if (response.data.newUser) {
+      if (!error) {
         //console.log('Dados do servidor: ', response.data.user);
 
         setUser(response.data.newUser);
