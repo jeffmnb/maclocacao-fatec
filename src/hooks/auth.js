@@ -85,7 +85,6 @@ export const AuthProvider = ({ children }) => {
       console.log(response.data);
 
       if (response.data.newUser) {
-        //console.log('Dados do servidor: ', response.data.user);
 
         setUser(response.data.newUser);
 
